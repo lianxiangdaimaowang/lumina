@@ -3,6 +3,10 @@
 *.aar
 *.ap_
 *.aab
+# 但允许根目录中的APK文件
+!/Lumina-v1.0.apk
+!/Lumina-debug.apk
+!/Lumina-unsigned.apk
 
 # Files for the ART/Dalvik VM
 *.dex
