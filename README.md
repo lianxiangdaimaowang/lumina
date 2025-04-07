@@ -29,7 +29,7 @@ Lumina是一款功能强大的Android智能笔记应用，集成了OCR文字识�
 
 ## 构建项目
 
-`powershell
+```powershell
 # 构建发布版本
 ./build_apk.ps1 -release
 
@@ -38,7 +38,7 @@ Lumina是一款功能强大的Android智能笔记应用，集成了OCR文字识�
 
 # 构建未签名版本
 ./build_apk_unsigned.ps1
-`
+```
 
 ## 许可证
 
