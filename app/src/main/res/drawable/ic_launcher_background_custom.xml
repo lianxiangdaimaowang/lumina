@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- 使用淡黄色作为笔记本背景 -->
+    <path
+        android:fillColor="#FFF8E1"
+        android:pathData="M0,0h108v108h-108z" />
+    
+    <!-- 左侧装订线区域 -->
+    <path
+        android:fillColor="#E8E8E8"
+        android:pathData="M0,0L20,0L20,108L0,108Z" />
+    
+    <!-- 笔记本横线 -->
+    <path
+        android:strokeColor="#BBDEFB"
+        android:strokeWidth="0.7"
+        android:pathData="M20,28L108,28" />
+    <path
+        android:strokeColor="#BBDEFB"
+        android:strokeWidth="0.7"
+        android:pathData="M20,38L108,38" />
+    <path
+        android:strokeColor="#BBDEFB"
+        android:strokeWidth="0.7"
+        android:pathData="M20,48L108,48" />
+    <path
+        android:strokeColor="#BBDEFB"
+        android:strokeWidth="0.7"
+        android:pathData="M20,58L108,58" />
+    <path
+        android:strokeColor="#BBDEFB"
+        android:strokeWidth="0.7"
+        android:pathData="M20,68L108,68" />
+    <path
+        android:strokeColor="#BBDEFB"
+        android:strokeWidth="0.7"
+        android:pathData="M20,78L108,78" />
+    <path
+        android:strokeColor="#BBDEFB"
+        android:strokeWidth="0.7"
+        android:pathData="M20,88L108,88" />
+    <path
+        android:strokeColor="#BBDEFB"
+        android:strokeWidth="0.7"
+        android:pathData="M20,98L108,98" />
+    
+    <!-- 装订孔 -->
+    <path
+        android:fillColor="#BDBDBD"
+        android:pathData="M10,25m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+    <path
+        android:fillColor="#BDBDBD"
+        android:pathData="M10,45m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+    <path
+        android:fillColor="#BDBDBD"
+        android:pathData="M10,65m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+    <path
+        android:fillColor="#BDBDBD"
+        android:pathData="M10,85m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+    
+    <!-- 顶部页脚阴影 -->
+    <path
+        android:fillColor="#E0E0E0"
+        android:pathData="M20,0L108,0L108,12L20,12Z" />
+    
+    <!-- 页角折痕 -->
+    <path
+        android:fillColor="#E0E0E0"
+        android:pathData="M88,0L108,0L108,20L88,20L88,0Z" />
+    <path
+        android:strokeColor="#BDBDBD"
+        android:strokeWidth="0.5"
+        android:pathData="M88,0L108,20" />
+</vector> 

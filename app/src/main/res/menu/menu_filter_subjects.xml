@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/filter_all"
+        android:title="@string/filter_all_subjects" />
+    
+    <item
+        android:id="@+id/filter_math"
+        android:title="@string/subject_math" />
+    
+    <item
+        android:id="@+id/filter_physics"
+        android:title="@string/subject_physics" />
+    
+    <item
+        android:id="@+id/filter_chemistry"
+        android:title="@string/subject_chemistry" />
+    
+    <item
+        android:id="@+id/filter_biology"
+        android:title="@string/subject_biology" />
+    
+    <item
+        android:id="@+id/filter_literature"
+        android:title="@string/subject_literature" />
+    
+    <item
+        android:id="@+id/filter_history"
+        android:title="@string/subject_history" />
+    
+    <item
+        android:id="@+id/filter_geography"
+        android:title="@string/subject_geography" />
+    
+    <item
+        android:id="@+id/filter_english"
+        android:title="@string/subject_english" />
+    
+    <item
+        android:id="@+id/filter_other"
+        android:title="@string/subject_other" />
+</menu> 

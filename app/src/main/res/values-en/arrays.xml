@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="subjects">
+        <item>Chinese Literature</item>
+        <item>Mathematics</item>
+        <item>English</item>
+        <item>Physics</item>
+        <item>Chemistry</item>
+        <item>Biology</item>
+        <item>History</item>
+        <item>Geography</item>
+        <item>Politics</item>
+        <item>Other</item>
+    </string-array>
+
+    <!-- Theme options -->
+    <string-array name="theme_options">
+        <item>@string/theme_light</item>
+        <item>@string/theme_dark</item>
+        <item>@string/theme_system</item>
+    </string-array>
+
+    <!-- Theme values -->
+    <string-array name="theme_values">
+        <item>1</item>   <!-- MODE_NIGHT_NO -->
+        <item>2</item>   <!-- MODE_NIGHT_YES -->
+        <item>-1</item>  <!-- MODE_NIGHT_FOLLOW_SYSTEM -->
+    </string-array>
+</resources>

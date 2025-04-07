@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".note.NoteEditActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/title_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_title">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/title_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLines="1" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/subject_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="@string/hint_subject">
+
+                <AutoCompleteTextView
+                    android:id="@+id/subject_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/content_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="@string/hint_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/content_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:inputType="textMultiLine"
+                    android:minLines="10" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_ocr"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_ocr"
+                    app:icon="@drawable/ic_camera" />
+
+                <Button
+                    android:id="@+id/btn_voice"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_voice"
+                    app:icon="@drawable/ic_mic" />
+
+                <Button
+                    android:id="@+id/btn_attachment"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_attachment"
+                    app:icon="@drawable/ic_attachment" />
+
+            </LinearLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_attachments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_attachments"
+                        android:textStyle="bold" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_attachments"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/save"
+        app:backgroundTint="?attr/colorPrimary"
+        app:tint="@android:color/white"
+        android:src="@drawable/ic_done" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout> 

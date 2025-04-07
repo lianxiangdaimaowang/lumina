@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Lumina</string>
+    
+    <!-- 底部导航栏 -->
+    <string name="title_notes">笔记</string>
+    <string name="title_review">复习</string>
+    <string name="title_community">社区</string>
+    <string name="title_profile">个人中心</string>
+    
+    <!-- 通用操作 -->
+    <string name="add_note">添加笔记</string>
+    <string name="edit">编辑</string>
+    <string name="delete">删除</string>
+    <string name="share">分享</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确认</string>
+    <string name="save">保存</string>
+    <string name="more">更多</string>
+    <string name="like">点赞</string>
+    <string name="comment">评论</string>
+    <string name="post_note">发布笔记</string>
+    <string name="hint_search">搜索笔记</string>
+    <string name="tab_latest">最新</string>
+    <string name="tab_popular">热门</string>
+    <string name="tab_following">关注</string>
+    <string name="no_notes">暂无笔记</string>
+    <string name="settings">设置</string>
+    <string name="feature_under_development">功能开发中，敬请期待</string>
+    <string name="restart_app">重启应用</string>
+    
+    <!-- 笔记相关 -->
+    <string name="note_title">标题</string>
+    <string name="note_content">内容</string>
+    <string name="note_subject">学科</string>
+    <string name="note_tags">标签</string>
+    <string name="note_created">创建时间</string>
+    <string name="note_modified">修改时间</string>
+    <string name="hint_title">请输入标题</string>
+    <string name="hint_subject">请选择学科</string>
+    <string name="hint_content">请输入笔记内容</string>
+    <string name="title_attachments">附件</string>
+    <string name="btn_ocr">OCR识别</string>
+    <string name="btn_voice">语音输入</string>
+    
+    <!-- 复习相关 -->
+    <string name="review_plan">复习计划</string>
+    <string name="review_next">下次复习</string>
+    <string name="review_completed">已完成</string>
+    <string name="review_progress">进度</string>
+    <string name="title_today_review">今日复习</string>
+    <string name="today_no_review">今日无复习任务</string>
+    <string name="title_upcoming_review">即将复习</string>
+    <string name="upcoming_no_review">暂无即将复习的内容</string>
+    <string name="title_completed_review">已完成复习</string>
+    <string name="completed_no_review">暂无已完成的复习</string>
+    <string name="no_review_plans">暂无复习计划</string>
+    <string name="review">复习</string>
+    <string name="complete">完成</string>
+    <string name="completed">已完成</string>
+    <string name="today_review_count">今日待复习：%d</string>
+    <string name="upcoming_review_count">即将复习：%d</string>
+    <string name="completed_review_count">已完成复习：%d</string>
+    <string name="review_plan_title_hint">标题</string>
+    <string name="review_plan_content_hint">内容</string>
+    <string name="review_plan_ebbinghaus_explanation">添加复习计划会根据艾宾浩斯遗忘曲线自动安排复习时间:\n\n第1次：当天\n第2次：1天后\n第3次：2天后\n第4次：4天后\n第5次：7天后</string>
+    <string name="review_plan_save">保存</string>
+    <string name="review_detail_title_label">标题</string>
+    <string name="review_detail_content_label">内容</string>
+    <string name="review_detail_info_label">复习信息</string>
+    <string name="review_detail_history_label">复习历史</string>
+    <string name="review_detail_complete">完成复习</string>
+    
+    <!-- 社区相关 -->
+    <string name="community_shared">已分享</string>
+    <string name="community_likes">点赞</string>
+    <string name="community_points">积分</string>
+    <string name="community_upload">上传</string>
+    <string name="community_latest">最新</string>
+    <string name="community_popular">热门</string>
+    <string name="community_following">关注</string>
+    <string name="community_empty_list">暂无内容</string>
+    <string name="community_post">发布</string>
+    <string name="community_comment">评论</string>
+    <string name="community_like">点赞</string>
+    <string name="community_share">分享</string>
+    
+    <!-- 用户相关 -->
+    <string name="profile_username">用户名</string>
+    <string name="profile_email">邮箱</string>
+    <string name="profile_points">积分</string>
+    <string name="profile_settings">设置</string>
+    <string name="profile_logout">退出登录</string>
+    <string name="title_statistics">统计信息</string>
+    <string name="edit_profile">编辑资料</string>
+    <string name="about">关于</string>
+    <string name="logout">退出登录</string>
+    <string name="student_identity">学生身份</string>
+    <string name="primary_student">小学生</string>
+    <string name="middle_student">初中生</string>
+    <string name="high_student">高中生</string>
+    <string name="college_student">大学生</string>
+    <string name="master_student">硕士研究生</string>
+    <string name="phd_student">博士研究生</string>
+    <string name="error_empty_username">用户名不能为空</string>
+    <string name="profile_saved">个人资料已保存</string>
+    
+    <!-- 登录相关 -->
+    <string name="login_title">登录</string>
+    <string name="login_subtitle">登录以同步和备份您的笔记</string>
+    <string name="login_with_qq">使用QQ登录</string>
+    <string name="login_with_wechat">使用微信登录</string>
+    <string name="login_skip">跳过登录</string>
+    <string name="login_success">登录成功</string>
+    <string name="login_failed">登录失败</string>
+    <string name="login_cancel">已取消登录</string>
+    <string name="login_as_guest">访客登录</string>
+    <string name="provider_qq">QQ</string>
+    <string name="provider_wechat">微信</string>
+    <string name="provider_guest">游客</string>
+    
+    <!-- 提示信息 -->
+    <string name="toast_success">操作成功</string>
+    <string name="toast_failure">操作失败</string>
+    <string name="toast_loading">加载中...</string>
+    <string name="toast_no_data">暂无数据</string>
+    <string name="toast_no_network">网络连接失败</string>
+    <string name="toast_error_loading">加载失败</string>
+    <string name="toast_note_not_found">未找到笔记</string>
+    
+    <!-- 权限相关 -->
+    <string name="permission_camera">需要相机权限</string>
+    <string name="permission_microphone">需要麦克风权限</string>
+    <string name="permission_storage">需要存储权限</string>
+    <string name="permission_denied">权限被拒绝</string>
+    
+    <!-- 同步相关 -->
+    <string name="sync_settings">同步设置</string>
+    <string name="sync_settings_description">管理笔记和复习计划的同步设置</string>
+    <string name="enable_sync">启用同步</string>
+    <string name="enable_sync_description">允许应用在本地和云端之间同步数据</string>
+    <string name="auto_sync">自动同步</string>
+    <string name="auto_sync_description">应用将在后台自动同步数据</string>
+    <string name="sync_wifi_only">仅在Wi-Fi下同步</string>
+    <string name="sync_wifi_only_description">仅在连接到Wi-Fi网络时同步数据，避免使用流量</string>
+    <string name="sync_status">同步状态</string>
+    <string name="last_sync">上次同步：%s</string>
+    <string name="last_sync_never">从未同步</string>
+    <string name="sync_now">立即同步</string>
+    <string name="syncing">正在同步...</string>
+    <string name="sync_completed">同步完成</string>
+    <string name="sync_failed">同步失败：%s</string>
+    
+    <!-- 主题相关 -->
+    <string name="theme_settings">主题设置</string>
+    <string name="theme_light">浅色</string>
+    <string name="theme_dark">深色</string>
+    <string name="theme_system">跟随系统</string>
+    <string name="theme_settings_description">选择应用的外观主题</string>
+    <string name="theme_preview">主题预览</string>
+    <string name="theme_preview_title">预览标题</string>
+    <string name="theme_preview_content">这是主题预览内容，可以查看不同主题下文本、背景和控件的显示效果。</string>
+    <string name="theme_preview_button">预览按钮</string>
+    <string name="theme_changed">主题已更改</string>
+    <string name="theme_already_applied">当前已经是该主题模式</string>
+    <string name="theme_mode_select">选择主题模式</string>
+    <string name="light_theme">亮色主题</string>
+    <string name="light_theme_preview">亮色主题展示</string>
+    <string name="light_theme_description">这是亮色主题下的内容显示效果，文字清晰易读，背景明亮。</string>
+    <string name="dark_theme">暗色主题</string>
+    <string name="dark_theme_preview">暗色主题展示</string>
+    <string name="dark_theme_description">这是暗色主题下的内容显示效果，减少光线刺激，适合夜间使用。</string>
+    <string name="apply">应用</string>
+    <string name="apply_selected_theme">应用选择的主题</string>
+    
+    <!-- 语言相关 -->
+    <string name="language_settings">语言设置</string>
+    <string name="language_system">跟随系统</string>
+    <string name="language_chinese">中文</string>
+    <string name="language_english">英文</string>
+    <string name="language_settings_description">选择应用显示的语言</string>
+    <string name="language_restart_tip">更改语言后需要重启应用才能生效</string>
+    <string name="language_changed">语言已更改，重启应用后生效</string>
+    <string name="language_change_hint">更改语言设置后，你可以选择立即应用或重启应用来使其生效</string>
+    <string name="language_apply_now">立即应用</string>
+    
+    <!-- 语言设置页面 -->
+    <string name="settings_language">语言设置</string>
+    <string name="language_en">English</string>
+    <string name="language_zh">中文</string>
+    
+    <!-- 编辑操作 -->
+    <string name="title_edit_note">编辑笔记</string>
+    <string name="error_title_empty">标题不能为空</string>
+    
+    <!-- 常用操作相关 -->
+    <string name="action_edit">编辑</string>
+    <string name="action_delete">删除</string>
+    <string name="action_share">分享</string>
+    <string name="action_search">搜索</string>
+    <string name="action_cancel">取消</string>
+    <string name="action_ok">确定</string>
+    <string name="action_save">保存</string>
+    <string name="action_complete">完成</string>
+    
+    <!-- 笔记详情页面 -->
+    <string name="title_note_detail">笔记详情</string>
+    <string name="edit_in_progress">编辑功能开发中</string>
+    <string name="share_in_progress">分享功能开发中</string>
+    <string name="delete_in_progress">删除功能开发中</string>
+    
+    <!-- OCR相关 -->
+    <string name="title_ocr_capture">文字识别</string>
+    <string name="ocr_instruction">拍照或从相册选择图片进行文字识别</string>
+    <string name="take_photo">拍照</string>
+    <string name="choose_gallery">相册</string>
+    <string name="ocr_result">识别结果</string>
+    <string name="ocr_init_success">OCR初始化成功</string>
+    <string name="ocr_init_failed">OCR初始化失败: %1$s</string>
+    <string name="ocr_no_text_found">未能识别任何文字</string>
+    <string name="ocr_recognize_failed">识别失败: %1$s</string>
+    <string name="error_create_image_file">创建图片文件失败</string>
+    <string name="camera_permission_denied">需要相机权限来拍照</string>
+    <string name="storage_permission_denied">需要存储权限来访问相册</string>
+    <string name="ocr_no_app_found">没有找到可处理图片的应用</string>
+    <string name="ocr_image_create_failed">创建图片文件失败</string>
+    <string name="ocr_camera_error">相机错误: %1$s</string>
+    <string name="ocr_gallery_error">相册错误: %1$s</string>
+    <string name="ocr_processing_error">处理错误: %1$s</string>
+    <string name="ocr_no_image">没有图片</string>
+    <string name="ocr_no_image_selected">没有选择图片</string>
+    <string name="ocr_operation_failed">操作失败: %1$d</string>
+    <string name="ocr_processing">正在处理...</string>
+    <string name="ocr_image_read_error">读取图片错误: %1$s</string>
+    <string name="ocr_success">识别成功</string>
+    <string name="ocr_process_interrupted">处理被中断</string>
+    <string name="ocr_operation_cancelled">操作已取消</string>
+    <string name="ocr_camera_permission_denied">相机权限被拒绝</string>
+    <string name="ocr_storage_permission_denied">存储权限被拒绝</string>
+    <string name="ocr_capture_title">OCR文字识别</string>
+    <string name="ocr_initial_hint">请选择拍照或从相册选择图片进行识别</string>
+    
+    <!-- 语音识别相关 -->
+    <string name="title_voice_recognition">语音转文字</string>
+    <string name="voice_ready">准备就绪，点击开始按钮开始录音</string>
+    <string name="voice_init_failed">语音识别初始化失败</string>
+    <string name="voice_listening">正在聆听...</string>
+    <string name="voice_recognizing">正在识别...</string>
+    <string name="voice_recognition_completed">识别完成</string>
+    <string name="voice_recognition_stopped">识别已停止</string>
+    <string name="voice_recognition_error">识别错误: %1$s</string>
+    <string name="voice_recognition_failed">识别失败: %1$s</string>
+    <string name="voice_no_speech_recognized">没有识别到语音，请重试</string>
+    <string name="microphone_permission_denied">麦克风权限被拒绝，语音识别无法使用</string>
+    <string name="voice_result_hint">语音识别结果将显示在这里</string>
+    <string name="start_recording">开始识别</string>
+    <string name="stop_recording">停止识别</string>
+    <string name="voice_auth_error_title">语音识别认证错误</string>
+    <string name="voice_auth_error_message">连接科大讯飞服务器失败，请检查API配置和网络连接</string>
+    <string name="voice_connection_error">连接错误</string>
+    <string name="voice_press_to_speak">点击开始识别</string>
+    <string name="voice_processing">正在处理语音...</string>
+    <string name="voice_connection_error_401">授权失败(401)，请检查应用配置</string>
+    <string name="voice_recording">正在录音...</string>
+    <string name="voice_done">语音识别完成</string>
+    <string name="voice_error">语音识别错误: </string>
+    <string name="voice_start">开始录音</string>
+    <string name="voice_stop">停止录音</string>
+    <string name="voice_recognition">语音识别</string>
+    <string name="voice_permission_denied">无法使用麦克风，请授予录音权限</string>
+    <string name="voice_init_success">语音识别初始化成功</string>
+    <string name="voice_instruction">请点击麦克风按钮开始录音</string>
+    <string name="voice_recognition_result">识别结果</string>
+    <string name="voice_result">识别结果</string>
+    
+    <!-- 通用 -->
+    <string name="done">完成</string>
+
+    <!-- 网络相关字符串 -->
+    <string name="network_unavailable">网络不可用，请检查网络连接</string>
+    <string name="network_error">网络错误，请稍后重试</string>
+    <string name="check_network">检查网络</string>
+    <string name="retry">重试</string>
+
+    <!-- 复习相关字符串 -->
+    <string name="add_review_plan_fail">无法添加复习计划，请稍后再试</string>
+
+    <!-- Note related strings -->
+    <string name="note_tag">Tag</string>
+    <string name="note_date">Date</string>
+    <string name="note_add_attachment">Add Attachment</string>
+    <string name="note_create_review">Create Review Plan</string>
+    <string name="note_empty_list">No Notes</string>
+    <string name="note_title_hint">Enter note title</string>
+    <string name="note_content_hint">Enter note content</string>
+    <string name="note_subject_hint">Choose subject</string>
+    <string name="note_saved">Note saved</string>
+    <string name="note_deleted">Note deleted</string>
+    <string name="new_note">New Note</string>
+    <string name="edit_note">Edit Note</string>
+
+    <!-- Review related strings -->
+    <string name="review_today">Today\'s Review</string>
+    <string name="review_upcoming">Upcoming Review</string>
+    <string name="review_empty_list">No Review Plans</string>
+    <string name="review_now">Review Now</string>
+    <string name="review_completed_message">Congratulations on completing the review!</string>
+    <string name="review_next_date">Next review: %1$s</string>
+    <string name="review_stage">Stage %1$d</string>
+
+    <!-- Profile related strings -->
+    <string name="profile_edit">Edit Profile</string>
+    <string name="profile_notes_count">Notes Count</string>
+    <string name="profile_reviews_count">Review Plans</string>
+
+    <!-- Settings related strings -->
+    <string name="settings_sync">Sync Settings</string>
+    <string name="settings_theme">Theme Settings</string>
+    <string name="settings_about">About Us</string>
+    <string name="settings_version">Version</string>
+    <string name="sync_auto">Auto Sync</string>
+    <string name="sync_last_time">Last sync: %1$s</string>
+    <string name="sync_success">Sync successful</string>
+
+    <!-- Permission related strings -->
+    <string name="permission_camera_title">Camera Permission</string>
+    <string name="permission_camera_message">Camera permission is needed to take photos</string>
+    <string name="permission_storage_title">Storage Permission</string>
+    <string name="permission_storage_message">Storage permission is needed to save attachments and export notes</string>
+    <string name="permission_microphone_title">Microphone Permission</string>
+    <string name="permission_microphone_message">Microphone permission is needed to record voice notes</string>
+    <string name="permission_denied_message">Permission denied, some features may not work</string>
+    <string name="permission_go_settings">Go to Settings</string>
+
+    <!-- OCR相关补充 -->
+    <string name="select_attachment">选择附件</string>
+    <string name="finish">完成</string>
+    <string name="error_loading_note">加载笔记失败</string>
+    <string name="error_opening_attachment">打开附件失败</string>
+    <string name="note_not_found">找不到笔记</string>
+    <string name="share_note">分享笔记</string>
+    <string name="confirm_delete">确认删除</string>
+    <string name="confirm_delete_message">确定要删除这条笔记吗？此操作无法撤销。</string>
+    
+    <!-- 错误消息 -->
+    <string name="error_loading">加载失败</string>
+    <string name="error_open_attachment">无法打开附件</string>
+    <string name="error_empty_title">标题不能为空</string>
+
+    <!-- 附件相关 -->
+    <string name="error_no_app_to_open">没有可以打开此类文件的应用</string>
+    <string name="attachment_added">附件已添加</string>
+    <string name="attachment_deleted">附件已删除</string>
+    <string name="attachment_error">添加附件时出错</string>
+    <string name="btn_attachment">添加附件</string>
+
+    <!-- 对话框相关 -->
+    <string name="confirm_discard_changes">是否保存更改？</string>
+    <string name="discard">放弃</string>
+    <string name="keep_editing">继续编辑</string>
+    
+    <!-- 菜单项 -->
+    <string name="search">搜索</string>
+    <string name="sort">排序</string>
+    <string name="filter">筛选</string>
+    <string name="more_options">更多选项</string>
+    
+    <!-- 排序选项 -->
+    <string name="sort_date_newest">最新的优先</string>
+    <string name="sort_date_oldest">最早的优先</string>
+    <string name="sort_title_asc">标题（A-Z）</string>
+    <string name="sort_title_desc">标题（Z-A）</string>
+    
+    <!-- 筛选选项 -->
+    <string name="filter_all_subjects">所有科目</string>
+    
+    <!-- 科目 -->
+    <string name="subject_math">数学</string>
+    <string name="subject_physics">物理</string>
+    <string name="subject_chemistry">化学</string>
+    <string name="subject_biology">生物</string>
+    <string name="subject_literature">文学</string>
+    <string name="subject_history">历史</string>
+    <string name="subject_geography">地理</string>
+    <string name="subject_english">英语</string>
+    <string name="subject_other">其他</string>
+    
+    <!-- OCR相关 -->
+    <string name="ocr_take_photo">拍照</string>
+    <string name="ocr_from_gallery">从相册选择</string>
+    
+    <!-- 附加资源 -->
+    <string name="note_details">笔记详情</string>
+    <string name="permission_required">需要权限</string>
+    <string name="subject">科目</string>
+
+    <!-- 其他字符串 -->
+    <string name="file_provider_authority">com.lianxiangdaimaowang.lumina.fileprovider</string>
+    
+    <!-- 底部导航菜单项 -->
+    <string name="action_notes">笔记</string>
+    <string name="action_review">复习</string>
+    <string name="action_profile">个人中心</string>
+    
+    <!-- 语言切换相关 -->
+    <string name="language_change_title">更改语言</string>
+    <string name="language_change_message">更改语言需要重启应用以生效</string>
+    <string name="restart_now">立即重启</string>
+    <string name="restart_later">稍后重启</string>
+
+    <!-- 个人头像相关 -->
+    <string name="change_avatar">更改头像</string>
+    <string name="select_avatar">选择头像</string>
+    <string name="take_avatar_photo">拍摄头像</string>
+    <string name="select_from_gallery">从相册选择</string>
+    <string name="avatar_update_success">头像更新成功</string>
+    <string name="avatar_update_failed">头像更新失败</string>
+    <string name="avatar_upload_progress">正在上传头像...</string>
+    <string name="avatar_select_failed">选择头像失败</string>
+    <string name="avatar_capture_failed">拍摄头像失败</string>
+    <string name="crop_avatar">裁剪头像</string>
+
+    <!-- 关于页面 -->
+    <string name="app_description">Lumina（光之灵）是一款AI驱动的学习笔记应用，专为学生设计，提供智能笔记管理、艾宾浩斯记忆曲线复习计划和学习社区功能。</string>
+    <string name="development_team">开发团队</string>
+    <string name="copyright_info">© 2025–2026 LuminaTeam. 保留所有权利。</string>
+</resources>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="4dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/avatar_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/CircleImageView"
+                tools:src="@tools:sample/avatars" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/username_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceSubtitle1"
+                    android:textStyle="bold"
+                    tools:text="用户名" />
+
+                <TextView
+                    android:id="@+id/time_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceCaption"
+                    android:textColor="?android:attr/textColorSecondary"
+                    tools:text="2小时前" />
+
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/btn_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/more"
+                android:padding="8dp"
+                android:src="@drawable/ic_more_vert" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/title_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:textStyle="bold"
+            tools:text="笔记标题" />
+
+        <TextView
+            android:id="@+id/content_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:textAppearance="?attr/textAppearanceBody1"
+            tools:text="这是笔记的内容预览，最多显示三行..." />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/subject_chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                tools:text="数学" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/btn_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/like"
+                android:padding="8dp"
+                android:src="@drawable/ic_favorite_border" />
+
+            <TextView
+                android:id="@+id/like_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:textAppearance="?attr/textAppearanceCaption"
+                tools:text="128" />
+
+            <ImageButton
+                android:id="@+id/btn_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/comment"
+                android:padding="8dp"
+                android:src="@drawable/ic_comment" />
+
+            <TextView
+                android:id="@+id/comment_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:textAppearance="?attr/textAppearanceCaption"
+                tools:text="32" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView> 

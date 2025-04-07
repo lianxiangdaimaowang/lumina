@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.lianxiangdaimaowang</groupId>
+    <artifactId>lumina</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+
+    <name>Lumina</name>
+    <description>笔记复习助手应用</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
+
+    <!-- 添加Maven仓库 -->
+    <repositories>
+        <repository>
+            <id>tencent-public</id>
+            <url>https://mirrors.tencent.com/nexus/repository/maven-public/</url>
+        </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <id>maven-central</id>
+            <url>https://repo1.maven.org/maven2</url>
+        </repository>
+        <repository>
+            <id>google</id>
+            <url>https://maven.google.com</url>
+        </repository>
+        
+    </repositories>
+
+    <dependencies>
+        <!-- QQ开放平台SDK -->
+        <dependency>
+            <groupId>com.tencent.tauth</groupId>
+            <artifactId>qqopensdk</artifactId>
+            <version>3.3.3</version>
+        </dependency>
+                
+        <!-- 微信开放平台SDK -->
+        <dependency>
+            <groupId>com.github.JeffreySu</groupId>
+            <artifactId>WeiXinMPSDK</artifactId>
+            <version>6.8.23</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <id>download-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.basedir}/libs</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                            <includeScope>compile</includeScope>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

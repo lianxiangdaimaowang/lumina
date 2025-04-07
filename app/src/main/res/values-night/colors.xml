@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 深色主题下使用较浅的颜色 -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="colorAccent">#FF80AB</color>
+    <color name="colorPrimary">#BB86FC</color>
+    <color name="colorPrimaryDark">#7B52AB</color>
+    <color name="colorPrimaryLight">#D0BCFF</color>
+    <color name="colorPrimaryVeryLight">#E8DEFB</color>
+    <color name="green">#66BB6A</color>
+    <color name="error_red">#F48FB1</color>
+    <color name="dark_blue">#64B5F6</color>
+    <color name="network_error_bg">#E57373</color>
+    
+    <!-- 背景和表面颜色 -->
+    <color name="background">#1F1B24</color>
+    <color name="surface">#2D2736</color>
+    <color name="card_background">#33302E</color>
+    <color name="text_primary">#F5F5F5</color>
+    <color name="text_secondary">#B0B0B0</color>
+    <color name="divider">#424242</color>
+</resources> 

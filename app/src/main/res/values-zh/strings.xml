@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 应用名称 -->
+    <string name="app_name">Lumina</string>
+
+    <!-- 底部导航标题 -->
+    <string name="title_notes">笔记</string>
+    <string name="title_review">复习</string>
+    <string name="title_community">社区</string>
+    <string name="title_profile">个人中心</string>
+
+    <!-- 常用动作 -->
+    <string name="action_save">保存</string>
+    <string name="action_delete">删除</string>
+    <string name="action_edit">编辑</string>
+    <string name="action_share">分享</string>
+    <string name="action_complete">完成</string>
+    <string name="action_cancel">取消</string>
+    <string name="action_ok">确定</string>
+
+    <!-- 笔记相关 -->
+    <string name="note_title">标题</string>
+    <string name="note_content">内容</string>
+    <string name="note_subject">学科</string>
+    <string name="note_tag">标签</string>
+    <string name="note_date">日期</string>
+    <string name="note_add_attachment">添加附件</string>
+    <string name="note_create_review">创建复习计划</string>
+    <string name="note_empty_list">暂无笔记</string>
+    <string name="note_title_hint">输入笔记标题</string>
+    <string name="note_content_hint">输入笔记内容</string>
+    <string name="note_subject_hint">选择学科</string>
+    <string name="note_saved">笔记已保存</string>
+    <string name="note_deleted">笔记已删除</string>
+    <string name="new_note">新建笔记</string>
+    <string name="edit_note">编辑笔记</string>
+
+    <!-- 复习相关 -->
+    <string name="review_today">今日复习</string>
+    <string name="review_upcoming">即将复习</string>
+    <string name="review_completed">已完成</string>
+    <string name="review_empty_list">暂无复习计划</string>
+    <string name="review_now">立即复习</string>
+    <string name="review_completed_message">恭喜完成复习！</string>
+    <string name="review_next_date">下次复习：%1$s</string>
+    <string name="review_stage">阶段 %1$d</string>
+    <string name="review_plan_title_hint">标题</string>
+    <string name="review_plan_content_hint">内容</string>
+    <string name="review_plan_ebbinghaus_explanation">添加复习计划会根据艾宾浩斯遗忘曲线自动安排复习时间:\n\n第1次：当天\n第2次：1天后\n第3次：2天后\n第4次：4天后\n第5次：7天后</string>
+    <string name="review_plan_save">保存</string>
+    <string name="review_detail_title_label">标题</string>
+    <string name="review_detail_content_label">内容</string>
+    <string name="review_detail_info_label">复习信息</string>
+    <string name="review_detail_history_label">复习历史</string>
+    <string name="review_detail_complete">完成复习</string>
+
+    <!-- 社区相关 -->
+    <string name="community_popular">热门</string>
+    <string name="community_latest">最新</string>
+    <string name="community_following">关注</string>
+    <string name="community_post">发布</string>
+    <string name="community_empty_list">暂无内容</string>
+    <string name="community_like">点赞</string>
+    <string name="community_comment">评论</string>
+    <string name="community_share">分享</string>
+
+    <!-- 用户相关 -->
+    <string name="profile_username">用户名</string>
+    <string name="profile_email">邮箱</string>
+    <string name="profile_edit">编辑资料</string>
+    <string name="profile_ut">退出登录</string>
+    <string name="profile_notes_count">笔记数量</string>
+    <string name="profile_reviews_count">复习计划</string>
+    <string name="profile_points">积分</string>
+
+    <!-- 设置相关 -->
+    <string name="settings">设置</string>
+    <string name="settings_sync">同步设置</string>
+    <string name="settings_theme">主题设置</string>
+    <string name="settings_language">语言设置</string>
+    <string name="settings_about">关于我们</string>
+    <string name="settings_version">版本</string>
+    <string name="sync_auto">自动同步</string>
+    <string name="sync_wifi_only">仅在WiFi下同步</string>
+    <string name="sync_now">立即同步</string>
+    <string name="sync_last_time">上次同步: %1$s</string>
+    <string name="sync_success">同步成功</string>
+    <string name="sync_failed">同步失败</string>
+
+    <!-- 权限相关 -->
+    <string name="permission_camera_title">相机权限</string>
+    <string name="permission_camera_message">需要相机权限来拍摄照片附件</string>
+    <string name="permission_storage_title">存储权限</string>
+    <string name="permission_storage_message">需要存储权限来保存附件和导出笔记</string>
+    <string name="permission_microphone_title">麦克风权限</string>
+    <string name="permission_microphone_message">需要麦克风权限来录制语音笔记</string>
+    <string name="permission_denied">权限被拒绝</string>
+    <string name="permission_denied_message">没有授予权限，部分功能可能无法使用</string>
+    <string name="permission_go_settings">前往设置</string>
+    
+    <!-- 主题相关 -->
+    <string name="theme_light">浅色主题</string>
+    <string name="theme_dark">深色主题</string>
+    <string name="theme_system">跟随系统</string>
+    <string name="theme_preview">主题预览</string>
+    
+    <!-- 语言相关 -->
+    <string name="language_en">English</string>
+    <string name="language_zh">中文</string>
+    <string name="language_changed">语言已更改，重启应用后生效</string>
+    <string name="restart_app">重启应用</string>
+    
+    <!-- 其他 -->
+    <string name="feature_under_development">功能开发中，敬请期待</string>
+</resources> 

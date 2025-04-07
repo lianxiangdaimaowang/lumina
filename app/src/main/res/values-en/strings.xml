@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App name -->
+    <string name="app_name">AI Campus Note</string>
+
+    <!-- Bottom navigation titles -->
+    <string name="title_notes">Notes</string>
+    <string name="title_review">Review</string>
+    <string name="title_community">Community</string>
+    <string name="title_profile">Profile</string>
+
+    <!-- Common actions -->
+    <string name="add_note">Add Note</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="share">Share</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="save">Save</string>
+    <string name="more">More</string>
+    <string name="like">Like</string>
+    <string name="comment">Comment</string>
+    <string name="post_note">Post Note</string>
+    <string name="hint_search">Search Notes</string>
+    <string name="tab_latest">Latest</string>
+    <string name="tab_popular">Popular</string>
+    <string name="tab_following">Following</string>
+    <string name="no_notes">No Notes</string>
+    <string name="settings">Settings</string>
+    <string name="feature_under_development">Feature under development</string>
+    <string name="restart_app">Restart App</string>
+
+    <!-- Note related -->
+    <string name="note_title">Title</string>
+    <string name="note_content">Content</string>
+    <string name="note_subject">Subject</string>
+    <string name="note_tags">Tags</string>
+    <string name="note_created">Created</string>
+    <string name="note_modified">Modified</string>
+    <string name="hint_title">Enter title</string>
+    <string name="hint_subject">Select subject</string>
+    <string name="hint_content">Enter content</string>
+    <string name="title_attachments">Attachments</string>
+    <string name="btn_ocr">OCR</string>
+    <string name="btn_voice">Voice Input</string>
+    <string name="btn_attachment">Add Attachment</string>
+    <string name="btn_save">Save</string>
+    <string name="subject">Subject</string>
+    <string name="share_note">Share Note</string>
+    <string name="error_empty_title">Title cannot be empty</string>
+
+    <!-- Review related -->
+    <string name="review_plan">Review Plan</string>
+    <string name="review_next">Next Review</string>
+    <string name="review_completed">Completed</string>
+    <string name="review_progress">Progress</string>
+    <string name="title_today_review">Today\'s Review</string>
+    <string name="today_no_review">No review tasks today</string>
+    <string name="title_upcoming_review">Upcoming Review</string>
+    <string name="upcoming_no_review">No upcoming reviews</string>
+    <string name="title_completed_review">Completed Review</string>
+    <string name="completed_no_review">No completed reviews</string>
+    <string name="no_review_plans">No review plans</string>
+    <string name="review">Review</string>
+    <string name="complete">Complete</string>
+    <string name="completed">Completed</string>
+    <string name="today_review_count">Today: %d</string>
+    <string name="upcoming_review_count">Upcoming: %d</string>
+    <string name="completed_review_count">Completed: %d</string>
+    <string name="review_plan_title_hint">Title</string>
+    <string name="review_plan_content_hint">Content</string>
+    <string name="review_plan_ebbinghaus_explanation">The review plan will automatically schedule reviews based on Ebbinghaus forgetting curve:\n\n1st review: Today\n2nd review: 1 day later\n3rd review: 2 days later\n4th review: 4 days later\n5th review: 7 days later</string>
+    <string name="review_plan_save">Save</string>
+    <string name="review_detail_title_label">Title</string>
+    <string name="review_detail_content_label">Content</string>
+    <string name="review_detail_info_label">Review Information</string>
+    <string name="review_detail_history_label">Review History</string>
+    <string name="review_detail_complete">Complete Review</string>
+
+    <!-- Community related -->
+    <string name="community_shared">Shared</string>
+    <string name="community_likes">Likes</string>
+    <string name="community_points">Points</string>
+    <string name="community_upload">Upload</string>
+    <string name="community_latest">Latest</string>
+    <string name="community_popular">Popular</string>
+    <string name="community_following">Following</string>
+    <string name="community_empty_list">No content</string>
+    <string name="community_post">Post</string>
+    <string name="community_comment">Comment</string>
+    <string name="community_like">Like</string>
+    <string name="community_share">Share</string>
+
+    <!-- User related -->
+    <string name="profile_username">Username</string>
+    <string name="profile_email">Email</string>
+    <string name="profile_points">Points</string>
+    <string name="profile_settings">Settings</string>
+    <string name="profile_logout">Logout</string>
+    <string name="title_statistics">Statistics</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="about">About</string>
+    <string name="logout">Logout</string>
+    <string name="student_identity">Student Identity</string>
+    <string name="primary_student">Primary School Student</string>
+    <string name="middle_student">Middle School Student</string>
+    <string name="high_student">High School Student</string>
+    <string name="college_student">College Student</string>
+    <string name="master_student">Master\'s Student</string>
+    <string name="phd_student">PhD Student</string>
+    <string name="error_empty_username">Username cannot be empty</string>
+    <string name="profile_saved">Profile saved successfully</string>
+
+    <!-- Toast messages -->
+    <string name="toast_success">Operation successful</string>
+    <string name="toast_failure">Operation failed</string>
+    <string name="toast_loading">Loading...</string>
+    <string name="toast_no_data">No data</string>
+    <string name="toast_no_network">Network connection failed</string>
+    <string name="toast_error_loading">Failed to load</string>
+    <string name="toast_note_not_found">Note not found</string>
+
+    <!-- Permissions -->
+    <string name="permission_camera">Camera permission required</string>
+    <string name="permission_microphone">Microphone permission required</string>
+    <string name="permission_storage">Storage permission required</string>
+    <string name="permission_denied">Permission denied</string>
+
+    <!-- Sync related -->
+    <string name="sync_settings">Sync Settings</string>
+    <string name="sync_settings_description">Manage sync settings for notes and review plans</string>
+    <string name="enable_sync">Enable Sync</string>
+    <string name="enable_sync_description">Allow the app to sync data between local and cloud</string>
+    <string name="auto_sync">Auto Sync</string>
+    <string name="auto_sync_description">The app will automatically sync data in the background</string>
+    <string name="sync_wifi_only">Sync on Wi-Fi Only</string>
+    <string name="sync_wifi_only_description">Sync data only when connected to Wi-Fi to save data usage</string>
+    <string name="sync_status">Sync Status</string>
+    <string name="last_sync">Last sync: %s</string>
+    <string name="last_sync_never">Never synced</string>
+    <string name="sync_now">Sync Now</string>
+    <string name="syncing">Syncing...</string>
+    <string name="sync_completed">Sync completed</string>
+    <string name="sync_failed">Sync failed: %s</string>
+
+    <!-- Theme related -->
+    <string name="theme_settings">Theme Settings</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_system">System Default</string>
+    <string name="theme_settings_description">Choose app appearance theme</string>
+    <string name="theme_preview">Theme Preview</string>
+    <string name="theme_preview_title">Preview Title</string>
+    <string name="theme_preview_content">This is theme preview content to see how text, background, and controls look in different themes.</string>
+    <string name="theme_preview_button">Preview Button</string>
+    <string name="theme_changed">Theme changed</string>
+    <string name="theme_already_applied">Current theme is already applied</string>
+    <string name="theme_mode_select">Select Theme Mode</string>
+    <string name="light_theme">Light Theme</string>
+    <string name="light_theme_preview">Light Theme Preview</string>
+    <string name="light_theme_description">This is how content looks in light theme, with clear text and bright background.</string>
+    <string name="dark_theme">Dark Theme</string>
+    <string name="dark_theme_preview">Dark Theme Preview</string>
+    <string name="dark_theme_description">This is how content looks in dark theme, with reduced light stimulation, suitable for night use.</string>
+    <string name="apply">Apply</string>
+    <string name="apply_selected_theme">Apply Selected Theme</string>
+
+    <!-- Language related -->
+    <string name="language_settings">Language Settings</string>
+    <string name="language_system">System Default</string>
+    <string name="language_chinese">Chinese</string>
+    <string name="language_english">English</string>
+    <string name="language_settings_description">Select app display language</string>
+    <string name="language_restart_tip">App restart required for language changes to take effect</string>
+    <string name="language_changed">Language changed, restart app to apply</string>
+    <string name="language_change_hint">After changing the language setting, you can choose to apply it immediately or restart the app</string>
+    <string name="language_apply_now">Apply Now</string>
+
+    <!-- Settings language -->
+    <string name="settings_language">Language Settings</string>
+    <string name="language_en">English</string>
+    <string name="language_zh">Chinese</string>
+
+    <!-- Subject names -->
+    <string name="subject_math">Mathematics</string>
+    <string name="subject_physics">Physics</string>
+    <string name="subject_chemistry">Chemistry</string>
+    <string name="subject_biology">Biology</string>
+    <string name="subject_literature">Chinese Literature</string>
+    <string name="subject_history">History</string>
+    <string name="subject_geography">Geography</string>
+    <string name="subject_english">English</string>
+    <string name="subject_other">Other</string>
+    <string name="filter_all_subjects">All Subjects</string>
+
+    <!-- Edit actions -->
+    <string name="title_edit_note">Edit Note</string>
+    <string name="error_title_empty">Title cannot be empty</string>
+
+    <!-- Note detail page -->
+    <string name="title_note_detail">Note Details</string>
+    <string name="edit_in_progress">Edit function in development</string>
+    <string name="share_in_progress">Share function in development</string>
+    <string name="delete_in_progress">Delete function in development</string>
+
+    <!-- OCR related -->
+    <string name="title_ocr_capture">OCR Text Recognition</string>
+    <string name="ocr_instruction">Take a photo or select an image from gallery for text recognition</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="choose_gallery">Gallery</string>
+    <string name="ocr_result">Recognition Result</string>
+    <string name="ocr_init_success">OCR initialized successfully</string>
+    <string name="ocr_init_failed">OCR initialization failed: %1$s</string>
+    <string name="ocr_no_text_found">No text recognized</string>
+    <string name="ocr_recognize_failed">Recognition failed: %1$s</string>
+    <string name="error_create_image_file">Failed to create image file</string>
+    <string name="camera_permission_denied">Camera permission needed for taking photos</string>
+    <string name="storage_permission_denied">Storage permission needed to access gallery</string>
+
+    <!-- Voice recognition related -->
+    <string name="title_voice_recognition">Voice Recognition</string>
+    <string name="voice_instruction">Tap the \"Start Recording\" button and speak to your phone</string>
+    <string name="voice_ready">Ready, tap start button</string>
+    <string name="voice_listening">Listening, please speak...</string>
+    <string name="voice_recognition_completed">Recognition completed</string>
+    <string name="voice_recognition_stopped">Recognition stopped</string>
+    <string name="voice_no_speech_recognized">No speech recognized, please try again</string>
+    <string name="voice_recognition_failed">Recognition failed: %1$s</string>
+    <string name="voice_init_success">Voice recognition initialized successfully</string>
+    <string name="voice_init_failed">Voice recognition initialization failed: %1$s</string>
+    <string name="start_recording">Start Recording</string>
+    <string name="stop_recording">Stop Recording</string>
+    <string name="voice_recognition_result">Recognition Result</string>
+    <string name="voice_result_hint">Your speech will be displayed here...</string>
+    <string name="voice_result">Recognition Result</string>
+    <string name="microphone_permission_denied">Microphone permission denied, voice recognition unavailable</string>
+
+    <!-- Common -->
+    <string name="done">Done</string>
+
+    <!-- Network related -->
+    <string name="network_unavailable">Network unavailable, please check your connection</string>
+    <string name="network_error">Network error, please try again later</string>
+    <string name="check_network">Check Network</string>
+    <string name="retry">Retry</string>
+
+    <!-- Review related strings -->
+    <string name="add_review_plan_fail">Cannot add review plan, please check network connection</string>
+    <string name="review_empty_list">No Review Plans Yet</string>
+    <string name="review_today">Today\'s Review</string>
+    <string name="review_upcoming">Upcoming Review</string>
+    <string name="review_now">Review Now</string>
+    <string name="notes_update_time">Update time: %s</string>
+
+    <!-- Profile related strings -->
+    <string name="profile_edit">Edit Profile</string>
+    <string name="profile_notes_count">Notes Count</string>
+    <string name="profile_reviews_count">Review Plans</string>
+
+    <!-- About page -->
+    <string name="app_description">Lumina is an AI-powered learning note application designed specifically for students, offering smart note management, Ebbinghaus forgetting curve review plans, and a learning community.</string>
+    <string name="development_team">Development Team</string>
+    <string name="team_members">Lianxiang Code King Team\nZhang San, Li Si, Wang Wu, Zhao Liu</string>
+    <string name="copyright_info">© 2023–2024 Lianxiang Code King Team. All rights reserved.</string>
+
+    <!-- Settings related strings -->
+    <string name="review_stage">Stage %1$d</string>
+</resources> 

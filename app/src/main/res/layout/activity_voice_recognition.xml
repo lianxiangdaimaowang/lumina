@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".voice.VoiceRecognitionActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <TextView
+            android:id="@+id/text_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@string/voice_ready"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_status" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/button_container"
+            app:layout_constraintTop_toBottomOf="@+id/progress_bar">
+
+            <TextView
+                android:id="@+id/text_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_edit_text"
+                android:hint="@string/voice_result_hint"
+                android:minHeight="150dp"
+                android:padding="8dp"
+                android:textSize="16sp" />
+
+        </androidx.core.widget.NestedScrollView>
+
+        <LinearLayout
+            android:id="@+id/button_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <Button
+                android:id="@+id/btn_start"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:text="@string/voice_start"
+                app:icon="@drawable/ic_mic" />
+
+            <Button
+                android:id="@+id/btn_stop"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:text="@string/voice_stop"
+                app:icon="@drawable/ic_stop" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/finish"
+        android:src="@drawable/ic_done"
+        android:visibility="gone" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout> 

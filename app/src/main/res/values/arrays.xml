@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="subjects">
+        <item>语文</item>
+        <item>数学</item>
+        <item>英语</item>
+        <item>物理</item>
+        <item>化学</item>
+        <item>生物</item>
+        <item>历史</item>
+        <item>地理</item>
+        <item>政治</item>
+        <item>其他</item>
+    </string-array>
+
+    <!-- 主题选项 -->
+    <string-array name="theme_options">
+        <item>@string/theme_light</item>
+        <item>@string/theme_dark</item>
+        <item>@string/theme_system</item>
+    </string-array>
+
+    <!-- 主题值 -->
+    <string-array name="theme_values">
+        <item>1</item>   <!-- MODE_NIGHT_NO -->
+        <item>2</item>   <!-- MODE_NIGHT_YES -->
+        <item>-1</item>  <!-- MODE_NIGHT_FOLLOW_SYSTEM -->
+    </string-array>
+</resources> 

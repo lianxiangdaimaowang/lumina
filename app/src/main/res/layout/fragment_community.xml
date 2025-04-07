@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".community.CommunityFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:title="@string/title_community"
+            android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="2dp"
+                    app:contentPadding="8dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hint_search"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/search_edit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:maxLines="1" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tab_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:tabMode="fixed"
+                    app:tabGravity="fill">
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tab_latest" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tab_popular" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tab_following" />
+
+                </com.google.android.material.tabs.TabLayout>
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/view_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp" />
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_post"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/post_note"
+        app:srcCompat="@drawable/ic_add" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout> 

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryLight">#7986CB</color>
+    <color name="colorPrimaryVeryLight">#9FA8DA</color>
+    <color name="green">#4CAF50</color>
+    <color name="error_red">#F44336</color>
+    <color name="dark_blue">#2196F3</color>
+    <color name="network_error_bg">#D32F2F</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+</resources>

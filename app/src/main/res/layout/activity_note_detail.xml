@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".note.NoteDetailActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/text_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                android:textStyle="bold"
+                tools:text="笔记标题" />
+
+            <TextView
+                android:id="@+id/text_subject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:textStyle="italic"
+                tools:text="科目" />
+
+            <TextView
+                android:id="@+id/text_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                tools:text="2023-04-01 12:30" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="?android:attr/listDivider" />
+
+            <TextView
+                android:id="@+id/text_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:textIsSelectable="true"
+                tools:text="这里是笔记内容..." />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_attachments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_attachments"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                        android:textStyle="bold" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_attachments"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/edit"
+        android:src="@drawable/ic_edit" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout> 

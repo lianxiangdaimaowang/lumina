@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="1dp"
+    app:strokeWidth="0dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="18dp">
+
+        <TextView
+            android:id="@+id/text_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/button_menu"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="笔记标题" />
+
+        <TextView
+            android:id="@+id/text_subject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_subject_label"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingStart="8dp"
+            android:paddingTop="3dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="3dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            android:textColor="?colorOnPrimary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_title"
+            tools:text="科目" />
+
+        <TextView
+            android:id="@+id/text_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            android:alpha="0.7"
+            app:layout_constraintBottom_toBottomOf="@+id/text_subject"
+            app:layout_constraintStart_toEndOf="@+id/text_subject"
+            app:layout_constraintTop_toTopOf="@+id/text_subject"
+            tools:text="2023-04-01 12:30" />
+
+        <TextView
+            android:id="@+id/text_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:lineSpacingMultiplier="1.2"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_subject"
+            tools:text="笔记内容摘要..." />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_content">
+
+            <ImageView
+                android:id="@+id/icon_attachment"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:contentDescription="@string/title_attachments"
+                android:src="@drawable/ic_attachment"
+                app:tint="?attr/colorPrimary"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/text_attachment_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="2"
+                android:textSize="12sp"
+                android:textColor="?attr/colorPrimary"
+                android:visibility="gone"
+                tools:visibility="visible" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/button_menu"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/more_options"
+            android:src="@drawable/ic_more"
+            app:tint="?android:attr/textColorSecondary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView> 

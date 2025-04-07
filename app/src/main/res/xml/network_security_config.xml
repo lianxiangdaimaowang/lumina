@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- 允许明文连接用于开发期间调试 -->
+    <debug-overrides>
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+    </debug-overrides>
+    
+    <!-- 允许科大讯飞API域名的明文流量 -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">api.xfyun.cn</domain>
+        <domain includeSubdomains="true">iat-api.xfyun.cn</domain>
+        <domain includeSubdomains="true">iat-niche-api.xfyun.cn</domain>
+        <domain includeSubdomains="true">ws-api.xfyun.cn</domain>
+    </domain-config>
+    
+    <!-- 设置基本配置 -->
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+    </base-config>
+</network-security-config> 

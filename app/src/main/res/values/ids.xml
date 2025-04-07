@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 语言设置界面 -->
+    <item name="radio_language_system" type="id" />
+    <item name="radio_language_chinese" type="id" />
+    <item name="radio_language_english" type="id" />
+    <item name="button_restart_app" type="id" />
+</resources>

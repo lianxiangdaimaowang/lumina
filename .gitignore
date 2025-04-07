@@ -1,3 +1,20 @@
+# Built application files
+*.apk
+*.aar
+*.ap_
+*.aab
+
+# Files for the ART/Dalvik VM
+*.dex
+
+# Java class files
+*.class
+
+# Generated files
+bin/
+gen/
+out/
+
 # Gradle files
 .gradle/
 build/
@@ -5,19 +22,31 @@ build/
 # Local configuration file (sdk path, etc)
 local.properties
 
-# Log/OS Files
+# Log Files
 *.log
 
-# Android Studio generated files and folders
+# Android Studio Navigation editor temp files
+.navigation/
+
+# Android Studio captures folder
 captures/
+
+# Android Studio generated files and folders
 .externalNativeBuild/
 .cxx/
-*.apk
 output.json
 
 # IntelliJ
 *.iml
 .idea/
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/gradle.xml
+.idea/assetWizardSettings.xml
+.idea/dictionaries
+.idea/libraries
+.idea/caches
+.idea/modules.xml
 misc.xml
 deploymentTargetDropDown.xml
 render.experimental.xml
@@ -31,3 +60,7 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# 自定义忽略文件
+/debug/
+/Logcat_new/

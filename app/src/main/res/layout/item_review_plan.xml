@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="4dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/title_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:text="笔记标题" />
+
+            <TextView
+                android:id="@+id/date_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="12sp"
+                tools:text="2023-05-15" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/description_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            tools:text="这是一份复习计划的描述，描述了这个复习计划的目标和内容。" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/subject_chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                tools:text="数学" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_delete"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/delete"
+                android:textColor="@android:color/holo_red_light"
+                android:textSize="12sp"
+                app:icon="@drawable/ic_delete"
+                app:iconSize="16dp"
+                app:iconTint="@android:color/holo_red_light" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_review"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/review"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
+                app:icon="@drawable/ic_review"
+                app:iconSize="16dp"
+                app:iconTint="@color/colorAccent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_complete"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/complete"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"
+                app:icon="@drawable/ic_check"
+                app:iconSize="16dp"
+                app:iconTint="@color/colorPrimary" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView> 

@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".review.ReviewFragment">
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- 新的优化内容 -->
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <!-- 今日复习卡片 -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_today_review"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="2dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <!-- 标题栏 -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:layout_marginBottom="8dp">
+
+                                <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:src="@drawable/ic_today"
+                                    app:tint="?attr/colorPrimary"
+                                    android:contentDescription="@string/title_today_review" />
+
+                                <TextView
+                                    android:id="@+id/text_today_count"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="@string/today_review_count"
+                                    android:textAppearance="?attr/textAppearanceHeadline6"
+                                    android:layout_marginStart="8dp" />
+                                
+                            </LinearLayout>
+
+                            <!-- 今日复习列表 -->
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recycler_today"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:nestedScrollingEnabled="false" />
+
+                            <!-- 空状态提示 -->
+                            <TextView
+                                android:id="@+id/text_today_empty"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/today_no_review"
+                                android:textAlignment="center"
+                                android:textAppearance="?attr/textAppearanceBody1"
+                                android:padding="16dp"
+                                android:visibility="gone" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- 即将复习卡片 -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_upcoming_review"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="2dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <!-- 标题栏 -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:layout_marginBottom="8dp">
+
+                                <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:src="@drawable/ic_upcoming"
+                                    app:tint="?attr/colorPrimary"
+                                    android:contentDescription="@string/title_upcoming_review" />
+
+                                <TextView
+                                    android:id="@+id/text_upcoming_count"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="@string/upcoming_review_count"
+                                    android:textAppearance="?attr/textAppearanceHeadline6"
+                                    android:layout_marginStart="8dp" />
+                                
+                            </LinearLayout>
+
+                            <!-- 即将复习列表 -->
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recycler_upcoming"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:nestedScrollingEnabled="false" />
+
+                            <!-- 空状态提示 -->
+                            <TextView
+                                android:id="@+id/text_upcoming_empty"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/upcoming_no_review"
+                                android:textAlignment="center"
+                                android:textAppearance="?attr/textAppearanceBody1"
+                                android:padding="16dp"
+                                android:visibility="gone" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- 已完成复习卡片 -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_completed_review"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="2dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <!-- 标题栏 -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:layout_marginBottom="8dp">
+
+                                <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:src="@drawable/ic_completed"
+                                    app:tint="?attr/colorPrimary"
+                                    android:contentDescription="@string/title_completed_review" />
+
+                                <TextView
+                                    android:id="@+id/text_completed_count"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="@string/completed_review_count"
+                                    android:textAppearance="?attr/textAppearanceHeadline6"
+                                    android:layout_marginStart="8dp" />
+                                
+                            </LinearLayout>
+
+                            <!-- 已完成复习列表 -->
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recycler_completed"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:nestedScrollingEnabled="false" />
+
+                            <!-- 空状态提示 -->
+                            <TextView
+                                android:id="@+id/text_completed_empty"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/completed_no_review"
+                                android:textAlignment="center"
+                                android:textAppearance="?attr/textAppearanceBody1"
+                                android:padding="16dp"
+                                android:visibility="gone" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+            <!-- 全局空视图 -->
+            <LinearLayout
+                android:id="@+id/layout_empty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:visibility="gone">
+                
+                <ImageView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/ic_no_review"
+                    android:contentDescription="@string/review_empty_list"
+                    app:tint="?attr/colorPrimary"
+                    android:alpha="0.7" />
+                
+                <TextView
+                    android:id="@+id/text_empty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/review_empty_list"
+                    android:textAlignment="center"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    android:layout_marginTop="16dp" />
+                    
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/review_plan_ebbinghaus_explanation"
+                    android:textAlignment="center"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:alpha="0.7" />
+            </LinearLayout>
+        </FrameLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <!-- 底部提示信息 -->
+    <LinearLayout
+        android:id="@+id/layout_bottom_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@drawable/bg_bottom_message"
+        android:layout_gravity="center|bottom"
+        android:layout_margin="16dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_bottom_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="无法加载复习计划，请稍后再试"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"/>
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add_review"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/review_plan"
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_add" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

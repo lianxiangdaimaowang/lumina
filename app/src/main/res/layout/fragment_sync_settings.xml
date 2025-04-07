@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="@string/sync_settings"
+            app:navigationIcon="@drawable/ic_back"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sync_settings_description"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="?android:attr/textColorSecondary"
+                android:layout_marginBottom="16dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch_sync_enabled"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/enable_sync"
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="8dp"
+                        android:checked="true" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/enable_sync_description"
+                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textColor="?android:attr/textColorSecondary"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:paddingBottom="16dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?android:attr/listDivider" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch_auto_sync"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/auto_sync"
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="8dp"
+                        android:checked="true" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/auto_sync_description"
+                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textColor="?android:attr/textColorSecondary"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:paddingBottom="16dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?android:attr/listDivider" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch_wifi_only"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sync_wifi_only"
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="8dp"
+                        android:checked="true" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sync_wifi_only_description"
+                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textColor="?android:attr/textColorSecondary"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:paddingBottom="16dp" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sync_status"
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:id="@+id/text_last_sync"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/last_sync_never"
+                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textColor="?android:attr/textColorSecondary"
+                        android:layout_marginBottom="16dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_sync_now"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sync_now"
+                        android:layout_gravity="end" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout> 
