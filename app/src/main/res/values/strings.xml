@@ -4,7 +4,7 @@
     
     <!-- 底部导航栏 -->
     <string name="title_notes">笔记</string>
-    <string name="title_review">复习</string>
+    <string name="title_review">每日推送</string>
     <string name="title_community">社区</string>
     <string name="title_profile">个人中心</string>
     
@@ -23,6 +23,7 @@
     <string name="hint_search">搜索笔记</string>
     <string name="tab_latest">最新</string>
     <string name="tab_popular">热门</string>
+    <string name="tab_favorite">收藏</string>
     <string name="tab_following">关注</string>
     <string name="no_notes">暂无笔记</string>
     <string name="settings">设置</string>
@@ -43,33 +44,20 @@
     <string name="btn_ocr">OCR识别</string>
     <string name="btn_voice">语音输入</string>
     
-    <!-- 复习相关 -->
-    <string name="review_plan">复习计划</string>
-    <string name="review_next">下次复习</string>
-    <string name="review_completed">已完成</string>
-    <string name="review_progress">进度</string>
-    <string name="title_today_review">今日复习</string>
-    <string name="today_no_review">今日无复习任务</string>
-    <string name="title_upcoming_review">即将复习</string>
-    <string name="upcoming_no_review">暂无即将复习的内容</string>
-    <string name="title_completed_review">已完成复习</string>
-    <string name="completed_no_review">暂无已完成的复习</string>
-    <string name="no_review_plans">暂无复习计划</string>
-    <string name="review">复习</string>
-    <string name="complete">完成</string>
-    <string name="completed">已完成</string>
-    <string name="today_review_count">今日待复习：%d</string>
-    <string name="upcoming_review_count">即将复习：%d</string>
-    <string name="completed_review_count">已完成复习：%d</string>
-    <string name="review_plan_title_hint">标题</string>
-    <string name="review_plan_content_hint">内容</string>
-    <string name="review_plan_ebbinghaus_explanation">添加复习计划会根据艾宾浩斯遗忘曲线自动安排复习时间:\n\n第1次：当天\n第2次：1天后\n第3次：2天后\n第4次：4天后\n第5次：7天后</string>
-    <string name="review_plan_save">保存</string>
-    <string name="review_detail_title_label">标题</string>
-    <string name="review_detail_content_label">内容</string>
-    <string name="review_detail_info_label">复习信息</string>
-    <string name="review_detail_history_label">复习历史</string>
-    <string name="review_detail_complete">完成复习</string>
+    <!-- 每日推送相关 -->
+    <string name="daily_push">每日推送</string>
+    <string name="news">新闻</string>
+    <string name="essay">作文</string>
+    <string name="quote">格言</string>
+    <string name="poem">诗词</string>
+    <string name="save_to_note">保存到笔记</string>
+    <string name="loading">加载中</string>
+    <string name="load_failed">加载失败</string>
+    <string name="retry">重试</string>
+    <string name="no_network">无网络连接</string>
+    <string name="check_network">请检查网络后重试</string>
+    <string name="content_saved">内容已保存</string>
+    <string name="content_shared">内容已分享</string>
     
     <!-- 社区相关 -->
     <string name="community_shared">已分享</string>
@@ -84,6 +72,7 @@
     <string name="community_comment">评论</string>
     <string name="community_like">点赞</string>
     <string name="community_share">分享</string>
+    <string name="empty_icon">空状态图标</string>
     
     <!-- 用户相关 -->
     <string name="profile_username">用户名</string>
@@ -279,17 +268,54 @@
     <!-- 网络相关字符串 -->
     <string name="network_unavailable">网络不可用，请检查网络连接</string>
     <string name="network_error">网络错误，请稍后重试</string>
-    <string name="check_network">检查网络</string>
-    <string name="retry">重试</string>
 
-    <!-- 复习相关字符串 -->
-    <string name="add_review_plan_fail">无法添加复习计划，请稍后再试</string>
+    <!-- 其他字符串 -->
+    <string name="file_provider_authority">com.lianxiangdaimaowang.lumina.fileprovider</string>
+    
+    <!-- 底部导航菜单项 -->
+    <string name="action_notes">笔记</string>
+    <string name="action_review">每日推送</string>
+    <string name="action_profile">个人中心</string>
+    
+    <!-- 语言切换相关 -->
+    <string name="language_change_title">更改语言</string>
+    <string name="language_change_message">更改语言需要重启应用以生效</string>
+    <string name="restart_now">立即重启</string>
+    <string name="restart_later">稍后重启</string>
+
+    <!-- 个人头像相关 -->
+    <string name="change_avatar">更改头像</string>
+    <string name="select_avatar">选择头像</string>
+    <string name="take_avatar_photo">拍摄头像</string>
+    <string name="select_from_gallery">从相册选择</string>
+    <string name="avatar_update_success">头像更新成功</string>
+    <string name="avatar_update_failed">头像更新失败</string>
+    <string name="avatar_upload_progress">正在上传头像...</string>
+    <string name="avatar_select_failed">选择头像失败</string>
+    <string name="avatar_capture_failed">拍摄头像失败</string>
+    <string name="crop_avatar">裁剪头像</string>
+
+    <!-- 关于页面 -->
+    <string name="app_description">Lumina（光之灵）是一款AI驱动的学习笔记应用，专为学生设计，提供智能笔记管理、每日推送和学习社区功能。</string>
+    <string name="development_team">开发团队</string>
+    <string name="copyright_info">© 2025–2026 LuminaTeam. 保留所有权利。</string>
+
+    <!-- 新增社区相关字符串 -->
+    <string name="post_hint">分享你的想法...</string>
+    <string name="btn_post">发布</string>
+    <string name="btn_like">点赞</string>
+    <string name="btn_comment">评论</string>
+
+    <string name="btn_save">保存</string>
+    <string name="notes_update_time">更新时间：%s</string>
+    <string name="profile_ut">未设置</string>
+    <string name="team_members">团队成员</string>
 
     <!-- Note related strings -->
     <string name="note_tag">Tag</string>
     <string name="note_date">Date</string>
     <string name="note_add_attachment">Add Attachment</string>
-    <string name="note_create_review">Create Review Plan</string>
+    <string name="note_create_review">Add to Daily Push</string>
     <string name="note_empty_list">No Notes</string>
     <string name="note_title_hint">Enter note title</string>
     <string name="note_content_hint">Enter note content</string>
@@ -299,19 +325,10 @@
     <string name="new_note">New Note</string>
     <string name="edit_note">Edit Note</string>
 
-    <!-- Review related strings -->
-    <string name="review_today">Today\'s Review</string>
-    <string name="review_upcoming">Upcoming Review</string>
-    <string name="review_empty_list">No Review Plans</string>
-    <string name="review_now">Review Now</string>
-    <string name="review_completed_message">Congratulations on completing the review!</string>
-    <string name="review_next_date">Next review: %1$s</string>
-    <string name="review_stage">Stage %1$d</string>
-
     <!-- Profile related strings -->
     <string name="profile_edit">Edit Profile</string>
     <string name="profile_notes_count">Notes Count</string>
-    <string name="profile_reviews_count">Review Plans</string>
+    <string name="profile_reviews_count">Daily Push Count</string>
 
     <!-- Settings related strings -->
     <string name="settings_sync">Sync Settings</string>
@@ -352,10 +369,10 @@
     <string name="attachment_added">附件已添加</string>
     <string name="attachment_deleted">附件已删除</string>
     <string name="attachment_error">添加附件时出错</string>
-    <string name="btn_attachment">添加附件</string>
+    <string name="btn_attachment">附件</string>
 
     <!-- 对话框相关 -->
-    <string name="confirm_discard_changes">是否保存更改？</string>
+    <string name="confirm_discard_changes">放弃更改?</string>
     <string name="discard">放弃</string>
     <string name="keep_editing">继续编辑</string>
     
@@ -392,36 +409,5 @@
     <!-- 附加资源 -->
     <string name="note_details">笔记详情</string>
     <string name="permission_required">需要权限</string>
-    <string name="subject">科目</string>
-
-    <!-- 其他字符串 -->
-    <string name="file_provider_authority">com.lianxiangdaimaowang.lumina.fileprovider</string>
-    
-    <!-- 底部导航菜单项 -->
-    <string name="action_notes">笔记</string>
-    <string name="action_review">复习</string>
-    <string name="action_profile">个人中心</string>
-    
-    <!-- 语言切换相关 -->
-    <string name="language_change_title">更改语言</string>
-    <string name="language_change_message">更改语言需要重启应用以生效</string>
-    <string name="restart_now">立即重启</string>
-    <string name="restart_later">稍后重启</string>
-
-    <!-- 个人头像相关 -->
-    <string name="change_avatar">更改头像</string>
-    <string name="select_avatar">选择头像</string>
-    <string name="take_avatar_photo">拍摄头像</string>
-    <string name="select_from_gallery">从相册选择</string>
-    <string name="avatar_update_success">头像更新成功</string>
-    <string name="avatar_update_failed">头像更新失败</string>
-    <string name="avatar_upload_progress">正在上传头像...</string>
-    <string name="avatar_select_failed">选择头像失败</string>
-    <string name="avatar_capture_failed">拍摄头像失败</string>
-    <string name="crop_avatar">裁剪头像</string>
-
-    <!-- 关于页面 -->
-    <string name="app_description">Lumina（光之灵）是一款AI驱动的学习笔记应用，专为学生设计，提供智能笔记管理、艾宾浩斯记忆曲线复习计划和学习社区功能。</string>
-    <string name="development_team">开发团队</string>
-    <string name="copyright_info">© 2025–2026 LuminaTeam. 保留所有权利。</string>
+    <string name="subject">学科</string>
 </resources>

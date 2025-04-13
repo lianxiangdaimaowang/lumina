@@ -1,0 +1,73 @@
+server:
+  port: 8081
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    url: jdbc:mysql://rm-2vc942bk6jz9173r7io.rwlb.cn-chengdu.rds.aliyuncs.com:3306/lumina?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: lumina
+    password: ${LUMINA_DB_PASSWORD:Yihe041016!} # 使用环境变量，默认值仅用于开发
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      idle-timeout: 300000
+      connection-timeout: 20000
+      max-lifetime: 1200000
+      pool-name: LuminaHikariCP
+      register-mbeans: true
+      metrics-registry: io.micrometer.prometheus.PrometheusMeterRegistry
+      leak-detection-threshold: 60000
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update # 生产环境建议设置为 validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+  security:
+    filter:
+      order: 10
+
+# JWT配置  
+jwt:
+  secret: ${JWT_SECRET:lumina_secret_key_please_change_in_production} # JWT密钥，使用环境变量
+  expiration: 604800 # 过期时间，单位秒，默认7天（604800秒）
+  header: Authorization
+  prefix: Bearer 
+  
+# 日志配置
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: DEBUG
+    org.hibernate: INFO
+    com.lianxiangdaimaowang.lumina: DEBUG
+    
+# CORS配置
+cors:
+  allowed-origins: "*"
+  allowed-methods: "*"
+  allowed-headers: "*"
+  max-age: 3600 
+
+# 监控配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,loggers,httptrace,prometheus
+  endpoint:
+    health:
+      show-details: when_authorized
+  metrics:
+    export:
+      prometheus:
+        enabled: true 

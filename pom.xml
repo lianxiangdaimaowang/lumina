@@ -18,40 +18,306 @@
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
-    <!-- 添加Maven仓库 -->
     <repositories>
+        <!-- Google Maven 仓库 -->
+        <repository>
+            <id>google</id>
+            <name>Google Maven Repository</name>
+            <url>https://dl.google.com/dl/android/maven2/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <!-- 腾讯云镜像仓库 -->
         <repository>
             <id>tencent-public</id>
-            <url>https://mirrors.tencent.com/nexus/repository/maven-public/</url>
+            <name>Tencent Maven Repository</name>
+            <url>https://mirrors.cloud.tencent.com/nexus/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <!-- 阿里云 Maven 仓库 -->
+        <repository>
+            <id>aliyun</id>
+            <name>Aliyun Maven Repository</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <!-- 网易镜像仓库 -->
+        <repository>
+            <id>netease</id>
+            <name>Netease Maven Repository</name>
+            <url>https://mirrors.163.com/maven/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <!-- 中科大镜像仓库 -->
+        <repository>
+            <id>ustc</id>
+            <name>USTC Maven Repository</name>
+            <url>https://mirrors.ustc.edu.cn/nexus/content/repositories/central/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
-        <repository>
-            <id>maven-central</id>
-            <url>https://repo1.maven.org/maven2</url>
-        </repository>
-        <repository>
-            <id>google</id>
-            <url>https://maven.google.com</url>
-        </repository>
-        
     </repositories>
 
+    <pluginRepositories>
+        <pluginRepository>
+            <id>google</id>
+            <name>Google Maven Repository</name>
+            <url>https://dl.google.com/dl/android/maven2/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>tencent-public</id>
+            <name>Tencent Maven Repository</name>
+            <url>https://mirrors.cloud.tencent.com/nexus/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
     <dependencies>
-        <!-- QQ开放平台SDK -->
+        <!-- Android基础组件 -->
         <dependency>
-            <groupId>com.tencent.tauth</groupId>
-            <artifactId>qqopensdk</artifactId>
-            <version>3.3.3</version>
+            <groupId>androidx.core</groupId>
+            <artifactId>core-ktx</artifactId>
+            <version>1.12.0</version>
+            <type>aar</type>
+            <scope>compile</scope>
         </dependency>
-                
-        <!-- 微信开放平台SDK -->
         <dependency>
-            <groupId>com.github.JeffreySu</groupId>
-            <artifactId>WeiXinMPSDK</artifactId>
-            <version>6.8.23</version>
+            <groupId>androidx.appcompat</groupId>
+            <artifactId>appcompat</artifactId>
+            <version>1.6.1</version>
+            <type>aar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.android.material</groupId>
+            <artifactId>material</artifactId>
+            <version>1.11.0</version>
+            <type>aar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>androidx.constraintlayout</groupId>
+            <artifactId>constraintlayout</artifactId>
+            <version>2.1.4</version>
+            <type>aar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>androidx.lifecycle</groupId>
+            <artifactId>lifecycle-runtime-ktx</artifactId>
+            <version>2.7.0</version>
+            <type>aar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>androidx.lifecycle</groupId>
+            <artifactId>lifecycle-viewmodel-ktx</artifactId>
+            <version>2.7.0</version>
+            <type>aar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>androidx.legacy</groupId>
+            <artifactId>legacy-support-v4</artifactId>
+            <version>1.0.0</version>
+            <type>aar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>androidx.multidex</groupId>
+            <artifactId>multidex</artifactId>
+            <version>2.0.1</version>
+            <type>aar</type>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- Preference库 -->
+        <dependency>
+            <groupId>androidx.preference</groupId>
+            <artifactId>preference</artifactId>
+            <version>1.2.1</version>
+            <type>aar</type>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- Room数据库 -->
+        <dependency>
+            <groupId>androidx.room</groupId>
+            <artifactId>room-runtime</artifactId>
+            <version>2.5.0</version>
+            <type>aar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>androidx.room</groupId>
+            <artifactId>room-compiler</artifactId>
+            <version>2.5.0</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>androidx.room</groupId>
+            <artifactId>room-ktx</artifactId>
+            <version>2.5.0</version>
+            <type>aar</type>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- WorkManager -->
+        <dependency>
+            <groupId>androidx.work</groupId>
+            <artifactId>work-runtime-ktx</artifactId>
+            <version>2.9.0</version>
+            <type>aar</type>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- AndroidX 基础依赖 -->
+        <dependency>
+            <groupId>androidx.annotation</groupId>
+            <artifactId>annotation</artifactId>
+            <version>1.3.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>androidx.fragment</groupId>
+            <artifactId>fragment</artifactId>
+            <version>1.3.6</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>androidx.vectordrawable</groupId>
+            <artifactId>vectordrawable-animated</artifactId>
+            <version>1.1.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>androidx.exifinterface</groupId>
+            <artifactId>exifinterface</artifactId>
+            <version>1.3.3</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>androidx.tracing</groupId>
+            <artifactId>tracing</artifactId>
+            <version>1.0.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- Gson -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- Retrofit -->
+        <dependency>
+            <groupId>com.squareup.retrofit2</groupId>
+            <artifactId>retrofit</artifactId>
+            <version>2.9.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.retrofit2</groupId>
+            <artifactId>converter-gson</artifactId>
+            <version>2.9.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>logging-interceptor</artifactId>
+            <version>4.9.3</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- Glide -->
+        <dependency>
+            <groupId>com.github.bumptech.glide</groupId>
+            <artifactId>glide</artifactId>
+            <version>4.15.1</version>
+            <type>aar</type>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- 测试依赖 -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>androidx.test.ext</groupId>
+            <artifactId>junit</artifactId>
+            <version>1.1.5</version>
+            <type>aar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>androidx.test.espresso</groupId>
+            <artifactId>espresso-core</artifactId>
+            <version>3.5.1</version>
+            <type>aar</type>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

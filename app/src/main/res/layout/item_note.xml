@@ -34,6 +34,7 @@
             android:layout_marginTop="6dp"
             android:background="@drawable/bg_subject_label"
             android:ellipsize="end"
+            android:maxWidth="120dp"
             android:maxLines="1"
             android:paddingStart="8dp"
             android:paddingTop="3dp"

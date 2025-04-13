@@ -1,0 +1,66 @@
+## 安全加固步骤指南
+
+按照以下步骤完成Lumina应用的安全加固：
+
+### 1. 设置环境变量
+
+运行修正后的环境变量设置脚本：
+```
+cd C:\app
+.\set_env_utf8.bat
+```
+
+### 2. 配置防火墙规则
+
+仅开放必要的端口：
+```
+netsh advfirewall firewall add rule name="Lumina Web" dir=in action=allow protocol=TCP localport=8081
+netsh advfirewall firewall add rule name="SSH" dir=in action=allow protocol=TCP localport=22
+```
+
+### 3. 阿里云RDS白名单设置
+
+1. 登录阿里云控制台
+2. 导航到云数据库RDS > 实例列表
+3. 选择您的MySQL实例(rm-2vc942bk6jz9173r7io)
+4. 点击"数据安全性" > "白名单设置"
+5. 添加服务器IP(121.43.138.32)到白名单
+6. 删除默认的"0.0.0.0/0"条目（如果存在）
+
+### 4. 阿里云安全组设置
+
+1. 登录阿里云控制台
+2. 进入ECS > 网络与安全 > 安全组
+3. 配置入站规则，只允许必要的端口(8081, 22)
+4. 删除不必要的开放端口
+
+### 5. 重启服务以应用环境变量
+
+```
+net stop LuminaService
+net start LuminaService
+```
+
+### 6. 运行安全检查
+
+使用修正后的安全检查脚本：
+```
+cd C:\app
+.\security_check_utf8.bat
+```
+
+### 7. 分析安全检查结果
+
+查看生成的日志文件：
+```
+type C:\app\logs\security_check.log
+```
+
+### 8. 配置定期安全检查
+
+创建每周执行一次的安全检查计划任务：
+```
+schtasks /create /tn "LuminaSecurityCheck" /tr "C:\app\security_check_utf8.bat" /sc weekly /d SUN /st 02:00
+```
+
+完成以上步骤后，Lumina应用将具备基本的安全保护措施。 

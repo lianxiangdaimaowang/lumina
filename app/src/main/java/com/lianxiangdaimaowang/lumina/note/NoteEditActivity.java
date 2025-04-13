@@ -30,12 +30,14 @@ import com.lianxiangdaimaowang.lumina.model.Note;
 import com.lianxiangdaimaowang.lumina.ocr.OcrCaptureActivity;
 import com.lianxiangdaimaowang.lumina.utils.FileUtils;
 import com.lianxiangdaimaowang.lumina.voice.VoiceRecognitionActivity;
+import com.lianxiangdaimaowang.lumina.sync.SyncManager;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public class NoteEditActivity extends BaseActivity {
     private static final String TAG = "NoteEditActivity";
@@ -55,6 +57,7 @@ public class NoteEditActivity extends BaseActivity {
     private FloatingActionButton fabSave;
     private View cardAttachments;
     private LocalDataManager localDataManager;
+    private SyncManager syncManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +78,9 @@ public class NoteEditActivity extends BaseActivity {
             
             // 获取LocalDataManager实例
             localDataManager = LocalDataManager.getInstance(getApplicationContext());
+            
+            // 获取SyncManager实例
+            syncManager = SyncManager.getInstance(getApplicationContext());
             
             // 然后获取数据库实例
             try {
@@ -243,77 +249,61 @@ public class NoteEditActivity extends BaseActivity {
 
     private void loadNote() {
         try {
-            Log.d(TAG, "开始加载笔记");
+            // 获取从intent传递过来的笔记ID
+            String noteId = getIntent().getStringExtra("note_id");
             
-            // 如果noteRepository为null，则无法加载数据
-            if (noteRepository == null) {
-                Log.e(TAG, "无法加载笔记: noteRepository为null");
-                return;
+            // 如果是从其他活动传入的笔记草稿
+            Bundle extras = getIntent().getExtras();
+            if (extras != null && extras.containsKey("note_draft")) {
+                Log.d(TAG, "加载笔记草稿");
+                Note draft = (Note) extras.getSerializable("note_draft");
+                if (draft != null) {
+                    // 创建新笔记实体
+                    currentNote = new NoteEntity();
+                    currentNote.setTitle(draft.getTitle());
+                    currentNote.setContent(draft.getContent());
+                    
+                    // 获取主题
+                    String subject = getIntent().getStringExtra("subject");
+                    if (subject != null && !subject.isEmpty()) {
+                        currentNote.setSubject(subject);
+                        Log.d(TAG, "设置笔记科目(来自Intent): " + subject);
+                    } else if (draft.getSubject() != null && !draft.getSubject().isEmpty()) {
+                        currentNote.setSubject(draft.getSubject());
+                        Log.d(TAG, "设置笔记科目(来自Draft): " + draft.getSubject());
+                    } else {
+                        Log.d(TAG, "笔记科目为空，将在保存时提示用户设置");
+                    }
+                    
+                    currentNote.setLastModifiedDate(new Date());
+                    populateFormWithNote();
+                    return;
+                }
             }
             
-            long noteId = getIntent().getLongExtra("note_id", -1);
-            if (noteId != -1) {
-                Log.d(TAG, "加载笔记ID: " + noteId);
-                noteRepository.getNoteById(noteId, note -> {
-                    if (note != null) {
-                        runOnUiThread(() -> {
-                            try {
-                                Log.d(TAG, "笔记加载成功: " + note.getTitle());
-                                currentNote = note;
-                                
-                                // 设置视图数据
-                                if (titleEdit != null) titleEdit.setText(note.getTitle());
-                                if (subjectEdit != null) subjectEdit.setText(note.getSubject());
-                                if (contentEdit != null) contentEdit.setText(note.getContent());
-                                
-                                // 加载附件
-                                if (note.getAttachments() != null) {
-                                    attachments.clear();
-                                    attachments.addAll(note.getAttachments());
-                                    
-                                    // 检查附件中的文件是否存在
-                                    List<String> validAttachments = new ArrayList<>();
-                                    for (String path : attachments) {
-                                        File file = new File(path);
-                                        if (file.exists() && file.canRead()) {
-                                            validAttachments.add(path);
-                                        } else {
-                                            Log.w(TAG, "附件文件不存在或无法读取: " + path);
-                                        }
-                                    }
-                                    
-                                    // 如果有无效附件，更新列表
-                                    if (validAttachments.size() != attachments.size()) {
-                                        attachments.clear();
-                                        attachments.addAll(validAttachments);
-                                    }
-                                    
-                                    if (attachmentsAdapter != null) {
-                                        attachmentsAdapter.notifyDataSetChanged();
-                                    }
-                                    updateAttachmentsVisibility();
-                                }
-                            } catch (Exception e) {
-                                Log.e(TAG, "在UI线程中设置笔记数据时出错", e);
-                                Toast.makeText(NoteEditActivity.this, 
-                                        "加载笔记数据时出错: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    } else {
-                        Log.e(TAG, "无法找到ID为 " + noteId + " 的笔记");
-                        runOnUiThread(() -> {
-                            Toast.makeText(NoteEditActivity.this, 
-                                    "无法找到指定的笔记", Toast.LENGTH_SHORT).show();
-                        });
-                    }
-                });
+            // 正常的笔记编辑流程 - 将noteId转换为long类型
+            if (noteId != null && !noteId.isEmpty()) {
+                // 先尝试从SyncManager中获取
+                loadNoteFromServer(noteId);
             } else {
-                Log.d(TAG, "创建新笔记 (noteId = -1)");
-                // 新建笔记不需要加载数据
+                // 如果是新笔记，从intent中获取预填值
+                String title = getIntent().getStringExtra("title");
+                String content = getIntent().getStringExtra("content");
+                String subject = getIntent().getStringExtra("subject");
+                
+                currentNote = new NoteEntity();
+                if (title != null) currentNote.setTitle(title);
+                if (content != null) currentNote.setContent(content);
+                if (subject != null && !subject.isEmpty()) {
+                    currentNote.setSubject(subject);
+                    Log.d(TAG, "设置新笔记科目: " + subject);
+                }
+                
+                populateFormWithNote();
             }
         } catch (Exception e) {
             Log.e(TAG, "加载笔记时出错", e);
-            Toast.makeText(this, "加载笔记数据时出错: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "加载笔记时出错: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -446,141 +436,146 @@ public class NoteEditActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 保存笔记
+     */
     private void saveNote() {
         try {
             Log.d(TAG, "开始保存笔记");
             
-            // 如果noteRepository为null，则无法保存数据
-            if (noteRepository == null) {
-                Log.e(TAG, "无法保存笔记: noteRepository为null");
-                Toast.makeText(this, "数据库未初始化，无法保存笔记", Toast.LENGTH_LONG).show();
-                return;
-            }
+            // 验证输入
+            String title = titleEdit.getText() != null ? titleEdit.getText().toString().trim() : "";
+            String content = contentEdit.getText() != null ? contentEdit.getText().toString().trim() : "";
+            String subject = subjectEdit.getText() != null ? subjectEdit.getText().toString().trim() : "";
             
-            // 从视图获取数据
-            final String title = titleEdit != null && titleEdit.getText() != null ? 
-                    titleEdit.getText().toString().trim() : "";
-            final String subject = subjectEdit != null && subjectEdit.getText() != null ? 
-                    subjectEdit.getText().toString().trim() : "";
-            final String content = contentEdit != null && contentEdit.getText() != null ? 
-                    contentEdit.getText().toString().trim() : "";
-
-            // 验证标题
             if (title.isEmpty()) {
-                if (titleEdit != null) {
-                    titleEdit.setError(getString(R.string.error_empty_title));
-                }
-                Toast.makeText(this, R.string.error_empty_title, Toast.LENGTH_SHORT).show();
+                titleEdit.setError(getString(R.string.error_empty_title));
+                titleEdit.requestFocus();
                 return;
             }
-
-            // 创建或更新笔记对象
-            if (currentNote == null) {
-                Log.d(TAG, "创建新笔记实例");
-                currentNote = new NoteEntity();
-                currentNote.setCreationDate(new Date());
-            }
             
-            Log.d(TAG, "设置笔记属性");
-            currentNote.setTitle(title);
-            currentNote.setSubject(subject);
-            currentNote.setContent(content);
+            // 显示保存中状态
+            showProgress(true, "正在保存到云端...");
             
-            // 验证并设置附件列表
-            if (attachments != null) {
-                // 检查附件文件是否存在
-                List<String> validAttachments = new ArrayList<>();
-                for (String path : attachments) {
-                    File file = new File(path);
-                    if (file.exists() && file.canRead()) {
-                        validAttachments.add(path);
-                    } else {
-                        Log.w(TAG, "保存时跳过不存在的附件: " + path);
-                    }
-                }
-                currentNote.setAttachments(validAttachments);
-            } else {
-                currentNote.setAttachments(new ArrayList<>());
-            }
-            currentNote.setLastModifiedDate(new Date());
+            // 从Intent中获取笔记ID（如果是编辑已有笔记）
+            String noteId = getIntent().getStringExtra("note_id");
+            Log.d(TAG, "笔记ID: " + (noteId != null ? noteId : "新笔记"));
             
-            // 根据ID决定执行插入或更新操作
-            if (currentNote.getId() != 0) {
-                // 更新现有笔记
-                Log.d(TAG, "更新现有笔记 ID: " + currentNote.getId());
-                noteRepository.update(currentNote);
-                
-                // 同时更新LocalDataManager中的笔记
-                final Note modelNote = new Note(title, content, subject);
-                modelNote.setId(String.valueOf(currentNote.getId()));
-                modelNote.setCreatedDate(currentNote.getCreationDate());
-                modelNote.setLastModifiedDate(currentNote.getLastModifiedDate());
-                
-                if (currentNote.getAttachments() != null) {
-                    for (String attachment : currentNote.getAttachments()) {
-                        modelNote.addAttachmentPath(attachment);
-                    }
-                }
-                
-                if (localDataManager != null) {
-                    localDataManager.saveNote(modelNote);
-                    Log.d(TAG, "笔记同时保存到LocalDataManager, ID: " + modelNote.getId());
-                }
-                
-                Toast.makeText(this, R.string.note_saved, Toast.LENGTH_SHORT).show();
-                setResult(RESULT_OK);
-                finish();
+            Note note;
+            if (noteId != null && !noteId.isEmpty()) {
+                // 更新已有笔记
+                Log.d(TAG, "正在编辑现有笔记，ID: " + noteId);
+                note = syncManager.getServerNotes().stream()
+                        .filter(n -> noteId.equals(n.getId()))
+                        .findFirst()
+                        .orElse(new Note());
+                note.setId(noteId);
             } else {
                 // 创建新笔记
-                Log.d(TAG, "插入新笔记");
-                // 保存final副本，用于lambda表达式中使用
-                final NoteEntity noteToSave = currentNote;
-                
-                noteRepository.insert(noteToSave, noteId -> {
-                    runOnUiThread(() -> {
-                        try {
-                            Log.d(TAG, "新笔记ID: " + noteId);
-                            
-                            if (noteId > 0) {
-                                // 同时保存到LocalDataManager
-                                final Note modelNote = new Note(title, content, subject);
-                                modelNote.setId(String.valueOf(noteId));
-                                modelNote.setCreatedDate(noteToSave.getCreationDate());
-                                modelNote.setLastModifiedDate(noteToSave.getLastModifiedDate());
-                                
-                                if (noteToSave.getAttachments() != null) {
-                                    for (String attachment : noteToSave.getAttachments()) {
-                                        modelNote.addAttachmentPath(attachment);
-                                    }
-                                }
-                                
-                                if (localDataManager != null) {
-                                    localDataManager.saveNote(modelNote);
-                                    Log.d(TAG, "新笔记同时保存到LocalDataManager, ID: " + modelNote.getId());
-                                }
-                                
-                                Toast.makeText(NoteEditActivity.this, R.string.note_saved, Toast.LENGTH_SHORT).show();
-                                // 返回结果给调用方
-                                Intent resultIntent = new Intent();
-                                resultIntent.putExtra("note_id", noteId);
-                                setResult(RESULT_OK, resultIntent);
-                                finish();
-                            } else {
-                                Log.e(TAG, "保存笔记失败: 返回的ID无效 (" + noteId + ")");
-                                Toast.makeText(NoteEditActivity.this, 
-                                        "保存笔记失败，请重试", Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (Exception e) {
-                            Log.e(TAG, "在UI线程中处理笔记插入回调时出错", e);
-                            Toast.makeText(NoteEditActivity.this, 
-                                    "保存笔记后处理出错: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                });
+                Log.d(TAG, "正在创建新笔记");
+                note = new Note();
             }
+            
+            // 更新笔记内容
+            note.setTitle(title);
+            note.setContent(content);
+            
+            // 确保科目信息被正确设置
+            if (subject != null && !subject.isEmpty()) {
+                note.setSubject(subject);
+                Log.d(TAG, "设置笔记科目: " + subject);
+            } else {
+                // 如果用户没有选择科目，默认设置为"其他"
+                note.setSubject("其他");
+                Log.d(TAG, "用户未选择科目，默认设置为: 其他");
+            }
+            
+            note.setLastModifiedDate(new Date());
+            note.setAttachmentPaths(attachments);
+            
+            // 设置用户ID
+            String userId = localDataManager.getCurrentUserId();
+            if (userId != null && !userId.isEmpty()) {
+                note.setUserId(userId);
+                Log.d(TAG, "设置笔记用户ID: " + userId);
+            } else {
+                Log.e(TAG, "警告：当前用户ID为空");
+            }
+            
+            // 保存到云端前，临时将笔记添加到SyncManager的缓存中，以便立即显示
+            List<Note> serverNotes = syncManager.getServerNotes();
+            if (noteId != null && !noteId.isEmpty()) {
+                // 替换现有笔记
+                for (int i = 0; i < serverNotes.size(); i++) {
+                    if (noteId.equals(serverNotes.get(i).getId())) {
+                        serverNotes.set(i, note);
+                        Log.d(TAG, "临时更新SyncManager缓存中的笔记");
+                        break;
+                    }
+                }
+            } else {
+                // 添加新笔记
+                serverNotes.add(note);
+                Log.d(TAG, "临时添加笔记到SyncManager缓存，当前缓存大小: " + serverNotes.size());
+            }
+            
+            // 保存到云端
+            syncManager.saveNote(note, new SyncManager.SyncCallback() {
+                @Override
+                public void onSuccess() {
+                    Log.d(TAG, "笔记成功保存到云端: " + note.getTitle() + ", ID: " + note.getId() + ", 科目: " + note.getSubject());
+                    runOnUiThread(() -> {
+                        showProgress(false, null);
+                        
+                        // 设置成功结果，让列表知道需要强制刷新
+                        Intent resultIntent = new Intent();
+                        resultIntent.putExtra("refresh_notes", true);
+                        setResult(RESULT_OK, resultIntent);
+                        Log.d(TAG, "已设置返回结果，包含refresh_notes=true标志");
+                        
+                        finish();
+                    });
+                }
+                
+                @Override
+                public void onError(String errorMessage) {
+                    Log.e(TAG, "保存笔记到云端失败: " + errorMessage);
+                    
+                    // 如果保存失败，从临时缓存中移除
+                    if (noteId == null || noteId.isEmpty()) {
+                        syncManager.getServerNotes().remove(note);
+                        Log.d(TAG, "从临时缓存中移除保存失败的笔记");
+                    }
+                    
+                    runOnUiThread(() -> {
+                        showProgress(false, null);
+                        new AlertDialog.Builder(NoteEditActivity.this)
+                            .setTitle("保存失败")
+                            .setMessage("无法保存到云端: " + errorMessage + "\n请检查网络连接并重试。")
+                            .setPositiveButton("重试", (dialog, which) -> saveNote())
+                            .setNegativeButton("取消", (dialog, which) -> dialog.dismiss())
+                            .show();
+                    });
+                }
+            });
         } catch (Exception e) {
             Log.e(TAG, "保存笔记时出错", e);
+            showProgress(false, null);
             Toast.makeText(this, "保存笔记时出错: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+    
+    /**
+     * 显示/隐藏加载状态
+     */
+    private void showProgress(boolean show, String message) {
+        View progressBar = findViewById(R.id.progress_bar);
+        if (progressBar != null) {
+            progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+        }
+        
+        if (show && message != null) {
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -679,6 +674,180 @@ public class NoteEditActivity extends BaseActivity {
         } catch (Exception e) {
             Log.e(TAG, "检查是否有更改时出错", e);
             return false;
+        }
+    }
+
+    /**
+     * 从服务器加载笔记
+     */
+    private void loadNoteFromServer(String noteId) {
+        try {
+            Log.d(TAG, "从服务器加载笔记: " + noteId);
+            // 显示加载进度
+            showProgress(true, "正在获取笔记...");
+            
+            // 尝试从SyncManager的缓存中获取
+            List<Note> serverNotes = syncManager.getServerNotes();
+            Optional<Note> serverNote = serverNotes.stream()
+                    .filter(n -> noteId.equals(n.getId()))
+                    .findFirst();
+            
+            if (serverNote.isPresent()) {
+                Log.d(TAG, "在缓存中找到笔记");
+                Note note = serverNote.get();
+                
+                // 转换为NoteEntity
+                currentNote = new NoteEntity();
+                // 将String类型的ID转换为Long
+                try {
+                    currentNote.setId(Long.parseLong(note.getId()));
+                } catch (NumberFormatException e) {
+                    Log.e(TAG, "无法将笔记ID转换为Long: " + note.getId(), e);
+                    // 不设置ID，让系统生成新ID
+                }
+                
+                currentNote.setTitle(note.getTitle());
+                currentNote.setContent(note.getContent());
+                
+                // 确保科目被正确设置
+                currentNote.setSubject(note.getSubject());
+                Log.d(TAG, "从服务器笔记中设置科目: " + note.getSubject());
+                
+                if (note.getAttachmentPaths() != null) {
+                    currentNote.setAttachments(note.getAttachmentPaths());
+                }
+                
+                // 填充表单
+                populateFormWithNote();
+                showProgress(false, null);
+            } else {
+                // 缓存中没有找到，尝试从服务器获取
+                Log.d(TAG, "缓存中没有找到笔记，尝试从服务器刷新笔记列表");
+                
+                // 使用fetchNotesFromServer来刷新服务器笔记列表
+                syncManager.fetchNotesFromServer(new SyncManager.SyncCallback() {
+                    @Override
+                    public void onSuccess() {
+                        Log.d(TAG, "成功从服务器刷新笔记列表");
+                        
+                        // 重新从刷新后的列表中查找
+                        List<Note> refreshedNotes = syncManager.getServerNotes();
+                        Note foundNote = null;
+                        for (Note note : refreshedNotes) {
+                            if (noteId.equals(note.getId())) {
+                                foundNote = note;
+                                break;
+                            }
+                        }
+                        
+                        if (foundNote != null) {
+                            final Note note = foundNote; // 需要在Lambda表达式中使用的final变量
+                            
+                            // 转换为NoteEntity
+                            currentNote = new NoteEntity();
+                            // 将String类型的ID转换为Long
+                            try {
+                                if (note.getId() != null) {
+                                    currentNote.setId(Long.parseLong(note.getId()));
+                                }
+                            } catch (NumberFormatException e) {
+                                Log.e(TAG, "无法将笔记ID转换为Long: " + note.getId(), e);
+                                // 不设置ID，让系统生成新ID
+                            }
+                            
+                            currentNote.setTitle(note.getTitle());
+                            currentNote.setContent(note.getContent());
+                            
+                            // 确保科目被正确设置
+                            currentNote.setSubject(note.getSubject());
+                            Log.d(TAG, "从服务器响应中设置科目: " + note.getSubject());
+                            
+                            if (note.getAttachmentPaths() != null) {
+                                currentNote.setAttachments(note.getAttachmentPaths());
+                            }
+                            
+                            // 在主线程上更新UI
+                            runOnUiThread(() -> {
+                                populateFormWithNote();
+                                showProgress(false, null);
+                            });
+                        } else {
+                            // 在刷新后的列表中也没找到
+                            runOnUiThread(() -> {
+                                showProgress(false, null);
+                                Toast.makeText(NoteEditActivity.this, 
+                                        "无法找到笔记，笔记可能已被删除", Toast.LENGTH_LONG).show();
+                                
+                                // 创建一个新笔记
+                                currentNote = new NoteEntity();
+                                populateFormWithNote();
+                            });
+                        }
+                    }
+                    
+                    @Override
+                    public void onError(String errorMessage) {
+                        Log.e(TAG, "从服务器获取笔记列表失败: " + errorMessage);
+                        
+                        runOnUiThread(() -> {
+                            showProgress(false, null);
+                            Toast.makeText(NoteEditActivity.this, 
+                                    "无法获取笔记: " + errorMessage, Toast.LENGTH_LONG).show();
+                            
+                            // 如果无法获取笔记，可能是网络问题，创建一个空的NoteEntity
+                            currentNote = new NoteEntity();
+                            populateFormWithNote();
+                        });
+                    }
+                });
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "加载服务器笔记时出错", e);
+            
+            showProgress(false, null);
+            Toast.makeText(this, "加载笔记时出错: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            
+            // 创建一个新的空笔记，以便用户可以继续
+            currentNote = new NoteEntity();
+            populateFormWithNote();
+        }
+    }
+    
+    /**
+     * 使用当前笔记数据填充表单
+     */
+    private void populateFormWithNote() {
+        try {
+            Log.d(TAG, "填充表单");
+            if (currentNote != null) {
+                titleEdit.setText(currentNote.getTitle());
+                contentEdit.setText(currentNote.getContent());
+                
+                // 设置科目
+                String subject = currentNote.getSubject();
+                if (subject != null && !subject.trim().isEmpty()) {
+                    subjectEdit.setText(subject);
+                    Log.d(TAG, "填充科目: " + subject);
+                } else {
+                    Log.d(TAG, "科目为空，不填充");
+                    // 不设置默认值，让用户从列表中选择
+                }
+                
+                // 设置附件列表
+                if (currentNote.getAttachments() != null) {
+                    attachments.clear();
+                    attachments.addAll(currentNote.getAttachments());
+                    if (attachmentsAdapter != null) {
+                        attachmentsAdapter.notifyDataSetChanged();
+                    }
+                    // 更新附件区域可见性
+                    updateAttachmentsVisibility();
+                }
+            } else {
+                Log.e(TAG, "当前笔记对象为null");
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "填充表单时出错", e);
         }
     }
 } 

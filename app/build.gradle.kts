@@ -1,4 +1,4 @@
-plugins {
+plugins{
     id("com.android.application")
     id("kotlin-android")
 }
@@ -38,12 +38,16 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = false  // 暂时禁用混淆
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            // 使用debug签名配置代替release配置
+            // 使用release签名配置
+            signingConfig = signingConfigs.getByName("release")
+        }
+        debug {
+            isDebuggable = true
             signingConfig = signingConfigs.getByName("debug")
         }
     }
@@ -108,12 +112,13 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:2.9.0")
     
     // Gson - 用于JSON解析
-    implementation("com.google.code.gson:gson:2.10")
+    implementation("com.google.code.gson:gson:2.10.1")
     
     // Retrofit 网络库
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
+    implementation("com.squareup.okhttp3:okhttp:4.9.3")
     
     // Glide 图片加载
     implementation("com.github.bumptech.glide:glide:4.15.1")
@@ -123,6 +128,12 @@ dependencies {
     
     // 微信开放平台SDK - 已禁用
     // implementation("com.tencent.mm.opensdk:wechat-sdk-android-without-mta:6.8.18")
+    
+    // 响应式编程
+    implementation("io.reactivex.rxjava3:rxjava:3.1.5")
+    implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
+    // 从JitPack仓库获取
+    implementation("com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0")
     
     // 测试依赖
     testImplementation("junit:junit:4.13.2")

@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.lianxiangdaimaowang.lumina.R;
-import com.lianxiangdaimaowang.lumina.language.LanguageManager;
 import com.lianxiangdaimaowang.lumina.utils.PermissionCallback;
 import com.lianxiangdaimaowang.lumina.utils.PermissionManager;
 
@@ -26,21 +25,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Permissi
     private static final int REQUEST_PERMISSION_CODE = 1001;
 
     private String currentRequestPermission;
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        Log.d(TAG, "attachBaseContext: 附加基础上下文");
-        try {
-            // 在这里应用语言设置
-            LanguageManager languageManager = LanguageManager.getInstance(newBase);
-            Context context = languageManager.wrapContext(newBase);
-            super.attachBaseContext(context);
-            Log.d(TAG, "attachBaseContext: 语言设置应用成功，当前语言为 " + context.getResources().getConfiguration().locale.getLanguage());
-        } catch (Exception e) {
-            Log.e(TAG, "attachBaseContext: 应用语言设置失败", e);
-            super.attachBaseContext(newBase);
-        }
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

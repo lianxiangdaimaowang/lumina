@@ -22,6 +22,7 @@ public class NoteEntity {
     private Date creationDate;
     private Date lastModifiedDate;
     private List<String> attachments;
+    private String userId; // 用户ID，用于区分不同用户的笔记
     
     public NoteEntity() {
         this.creationDate = new Date();
@@ -84,6 +85,14 @@ public class NoteEntity {
     
     public void setAttachments(List<String> attachments) {
         this.attachments = attachments;
+    }
+    
+    public String getUserId() {
+        return userId;
+    }
+    
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
     
     public void updateLastModifiedDate() {

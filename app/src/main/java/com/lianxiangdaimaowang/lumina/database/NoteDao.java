@@ -27,17 +27,32 @@ public interface NoteDao {
     @Query("DELETE FROM notes WHERE id = :id")
     void deleteById(long id);
 
+    @Query("DELETE FROM notes WHERE userId = :userId")
+    void deleteAllByUserId(String userId);
+
     @Query("SELECT * FROM notes WHERE id = :id")
     NoteEntity getNoteById(long id);
+
+    @Query("SELECT * FROM notes WHERE userId = :userId ORDER BY lastModifiedDate DESC")
+    LiveData<List<NoteEntity>> getNotesByUserId(String userId);
 
     @Query("SELECT * FROM notes ORDER BY lastModifiedDate DESC")
     LiveData<List<NoteEntity>> getAllNotes();
 
+    @Query("SELECT * FROM notes WHERE userId = :userId AND (title LIKE '%' || :query || '%' OR content LIKE '%' || :query || '%') ORDER BY lastModifiedDate DESC")
+    LiveData<List<NoteEntity>> searchNotes(String userId, String query);
+
     @Query("SELECT * FROM notes WHERE title LIKE '%' || :query || '%' OR content LIKE '%' || :query || '%' ORDER BY lastModifiedDate DESC")
     LiveData<List<NoteEntity>> searchNotes(String query);
 
+    @Query("SELECT * FROM notes WHERE userId = :userId AND subject = :subject ORDER BY lastModifiedDate DESC")
+    LiveData<List<NoteEntity>> getNotesBySubject(String userId, String subject);
+
     @Query("SELECT * FROM notes WHERE subject = :subject ORDER BY lastModifiedDate DESC")
     LiveData<List<NoteEntity>> getNotesBySubject(String subject);
+
+    @Query("SELECT COUNT(*) FROM notes WHERE userId = :userId")
+    int getNotesCountByUserId(String userId);
 
     @Query("SELECT COUNT(*) FROM notes")
     int getNotesCount();

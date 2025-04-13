@@ -7,9 +7,14 @@
         android:title="@string/title_notes" />
 
     <item
-        android:id="@+id/action_review"
+        android:id="@+id/action_daily_push"
         android:icon="@drawable/ic_review"
         android:title="@string/title_review" />
+
+    <item
+        android:id="@+id/action_community"
+        android:icon="@drawable/ic_community"
+        android:title="@string/title_community" />
 
     <item
         android:id="@+id/action_profile"

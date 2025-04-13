@@ -1,0 +1,1 @@
+# Lumina 应用使用说明\n\n## Android 客户端\n\n1. 安装 android 目录下的 app-release.apk 文件\n2. 确保已启动服务器\n\n## 服务器\n\n1. 进入 server 目录\n2. 运行 start.bat 启动服务器\n3. 确保 8081 端口可用\n\n## 系统要求\n\n- Android 7.0 或更高版本\n- JDK 11 或更高版本\n- 2GB 及以上内存

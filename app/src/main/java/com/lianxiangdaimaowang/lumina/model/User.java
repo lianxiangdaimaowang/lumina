@@ -2,14 +2,41 @@ package com.lianxiangdaimaowang.lumina.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.Expose;
 
 /**
  * 用户模型类
  */
 public class User {
-    private String id;
+    @Expose
+    @SerializedName("id")
+    private Long id;
+    
+    @Expose
+    @SerializedName("username")
     private String username;
+    
+    @Expose
+    @SerializedName("password")
+    private String password;
+    
+    @Expose
+    @SerializedName("email")
     private String email;
+    
+    @Expose
+    @SerializedName("avatar")
+    private String avatar;
+    
+    @Expose
+    @SerializedName("studentType")
+    private String studentType;
+    
+    @Expose
+    @SerializedName("status")
+    private Integer status;
+    
     private String profileImageUrl;
     private int points;  // 虚拟积分，用于社区打赏
     private List<String> favoriteSubjects;
@@ -20,39 +47,73 @@ public class User {
         this.favoriteSubjects = new ArrayList<>();
         this.favoriteNotes = new ArrayList<>();
         this.points = 0;
+        this.status = 1;  // 设置默认状态为1（正常）
     }
 
-    // 参数构造函数
-    public User(String id, String username, String email) {
-        this();
-        this.id = id;
+    // 带参数构造函数
+    public User(String username, String password, String email) {
+        this();  // 调用默认构造函数
         this.username = username;
+        this.password = password;
         this.email = email;
     }
 
-    // Getters and Setters
-    public String getId() {
+    // Getter和Setter
+    
+    public Long getId() {
         return id;
     }
-
-    public void setId(String id) {
+    
+    public void setId(Long id) {
         this.id = id;
     }
-
+    
     public String getUsername() {
         return username;
     }
-
+    
     public void setUsername(String username) {
         this.username = username;
     }
-
+    
+    public String getPassword() {
+        return password;
+    }
+    
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
     public String getEmail() {
         return email;
     }
-
+    
     public void setEmail(String email) {
         this.email = email;
+    }
+    
+    public String getAvatar() {
+        return avatar;
+    }
+    
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+    
+    public String getStudentType() {
+        return studentType;
+    }
+    
+    public void setStudentType(String studentType) {
+        this.studentType = studentType;
+    }
+    
+    public Integer getStatus() {
+        return status;
+    }
+    
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public String getProfileImageUrl() {

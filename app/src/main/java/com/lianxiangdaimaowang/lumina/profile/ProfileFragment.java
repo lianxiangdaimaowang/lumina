@@ -17,9 +17,7 @@ import com.google.android.material.imageview.ShapeableImageView;
 import com.lianxiangdaimaowang.lumina.R;
 import com.lianxiangdaimaowang.lumina.base.BaseFragment;
 import com.lianxiangdaimaowang.lumina.data.LocalDataManager;
-import com.lianxiangdaimaowang.lumina.language.LanguageSettingsFragment;
 import com.lianxiangdaimaowang.lumina.theme.ThemeSettingsFragment;
-import com.lianxiangdaimaowang.lumina.database.NoteRepository;
 import com.lianxiangdaimaowang.lumina.about.AboutFragment;
 
 /**
@@ -31,9 +29,6 @@ public class ProfileFragment extends BaseFragment {
     private LocalDataManager localDataManager;
     private ShapeableImageView avatarImage;
     private TextView usernameText;
-    private TextView notesCountText;
-    private TextView reviewsCountText;
-    private View pointsContainer; // 积分容器视图（需要隐藏）
     
     public ProfileFragment() {
         // 必需的空构造函数
@@ -58,21 +53,16 @@ public class ProfileFragment extends BaseFragment {
         // 初始化各个视图
         avatarImage = view.findViewById(R.id.image_avatar);
         usernameText = view.findViewById(R.id.text_username);
-        notesCountText = view.findViewById(R.id.text_notes_count);
-        reviewsCountText = view.findViewById(R.id.text_reviews_count);
-        
-        // 隐藏积分容器
-        pointsContainer = view.findViewById(R.id.layout_points);
-        pointsContainer.setVisibility(View.GONE);
         
         // 隐藏邮箱文本
         TextView emailText = view.findViewById(R.id.text_email);
-        emailText.setVisibility(View.GONE);
+        if (emailText != null) {
+            emailText.setVisibility(View.GONE);
+        }
         
         // 设置点击事件
         view.findViewById(R.id.button_edit_profile).setOnClickListener(v -> navigateToEditProfile());
         view.findViewById(R.id.layout_theme_settings).setOnClickListener(v -> navigateToThemeSettings());
-        view.findViewById(R.id.layout_language_settings).setOnClickListener(v -> navigateToLanguageSettings());
         view.findViewById(R.id.layout_about).setOnClickListener(v -> navigateToAbout());
         view.findViewById(R.id.button_logout).setOnClickListener(v -> logout());
         
@@ -98,25 +88,6 @@ public class ProfileFragment extends BaseFragment {
             usernameText.setText(String.format("%s (%s)", username, studentIdentity));
         } else {
             usernameText.setText(username);
-        }
-        
-        try {
-            // 显示本地数据管理器的复习计划数量
-            int reviewsCount = localDataManager.getAllReviewPlans().size();
-            reviewsCountText.setText(String.valueOf(reviewsCount));
-            
-            // 获取数据库中的笔记数量
-            NoteRepository noteRepository = NoteRepository.getInstance(requireContext());
-            noteRepository.getNotesCount(count -> {
-                // 在UI线程更新笔记数量
-                requireActivity().runOnUiThread(() -> {
-                    notesCountText.setText(String.valueOf(count));
-                });
-            });
-        } catch (Exception e) {
-            // 出现异常时使用默认值
-            notesCountText.setText("0");
-            reviewsCountText.setText("0");
         }
     }
     
@@ -172,12 +143,8 @@ public class ProfileFragment extends BaseFragment {
      * 导航到语言设置页面
      */
     private void navigateToLanguageSettings() {
-        // 创建语言设置Fragment
-        LanguageSettingsFragment languageSettingsFragment = new LanguageSettingsFragment();
-        
         // 执行Fragment事务
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, languageSettingsFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }

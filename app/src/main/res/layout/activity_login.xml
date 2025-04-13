@@ -1,75 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurface"
-    android:padding="24dp">
-
-    <ImageView
-        android:id="@+id/image_logo"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="80dp"
-        android:src="@mipmap/ic_launcher"
-        android:contentDescription="@string/app_name"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center"
+    android:background="@android:color/system_neutral1_50">
 
     <TextView
-        android:id="@+id/text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/app_name"
-        android:textSize="28sp"
+        android:text="Lumina"
+        android:textSize="36sp"
         android:textStyle="bold"
         android:textColor="?attr/colorPrimary"
-        app:layout_constraintTop_toBottomOf="@id/image_logo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_marginBottom="48dp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="账号"
+        app:startIconDrawable="@drawable/ic_person"
+        app:startIconTint="?attr/colorPrimary"
+        android:layout_marginBottom="16dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:maxLines="1"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="密码"
+        app:startIconDrawable="@drawable/ic_lock"
+        app:startIconTint="?attr/colorPrimary"
+        app:endIconMode="password_toggle"
+        android:layout_marginBottom="8dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:maxLines="1"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/text_subtitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/login_subtitle"
-        android:textSize="16sp"
-        android:textAlignment="center"
-        android:textColor="?android:attr/textColorSecondary"
-        app:layout_constraintTop_toBottomOf="@id/text_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_guest_login"
-        android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="48dp"
-        android:text="@string/login_as_guest"
-        android:textSize="16sp"
-        android:textColor="@android:color/white"
-        app:cornerRadius="8dp"
-        app:backgroundTint="?attr/colorPrimary"
-        app:layout_constraintTop_toBottomOf="@id/text_subtitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_skip"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:id="@+id/tv_forgot_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/login_skip"
-        android:textSize="16sp"
+        android:text="忘记密码？"
         android:textColor="?attr/colorPrimary"
-        app:layout_constraintTop_toBottomOf="@id/btn_guest_login"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_gravity="end"
+        android:padding="8dp"
+        android:layout_marginBottom="32dp"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout> 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="登录"
+        android:textSize="16sp"
+        app:cornerRadius="28dp"
+        android:layout_marginBottom="16dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="还没有账号？"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/tv_go_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="点击注册"
+            android:textColor="?attr/colorPrimary"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:padding="8dp"/>
+    </LinearLayout>
+
+</LinearLayout> 

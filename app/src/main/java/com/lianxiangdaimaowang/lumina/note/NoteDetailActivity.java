@@ -3,11 +3,13 @@ package com.lianxiangdaimaowang.lumina.note;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -18,8 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.lianxiangdaimaowang.lumina.R;
 import com.lianxiangdaimaowang.lumina.BaseActivity;
-import com.lianxiangdaimaowang.lumina.database.NoteEntity;
-import com.lianxiangdaimaowang.lumina.database.NoteRepository;
+import com.lianxiangdaimaowang.lumina.model.Note;
+import com.lianxiangdaimaowang.lumina.sync.SyncManager;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -39,35 +41,39 @@ public class NoteDetailActivity extends BaseActivity {
     private View cardAttachments;
     private RecyclerView recyclerAttachments;
     private FloatingActionButton fabEdit;
+    private ProgressBar progressBar;
     
-    private NoteRepository noteRepository;
-    private NoteEntity note;
+    private SyncManager syncManager;
+    private Note note;
     private AttachmentsAdapter attachmentsAdapter;
     private List<String> attachments = new ArrayList<>();
+    private String noteId;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_detail);
         
-        noteRepository = NoteRepository.getInstance(getApplicationContext());
+        syncManager = SyncManager.getInstance(getApplicationContext());
         
-        long noteId = getIntent().getLongExtra("note_id", -1);
-        if (noteId == -1) {
+        noteId = getIntent().getStringExtra("note_id");
+        if (noteId == null || noteId.isEmpty()) {
             Toast.makeText(this, R.string.error_loading, Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
         
         setupViews();
-        loadNote(noteId);
+        loadNote();
     }
     
     private void setupViews() {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(R.string.note_details);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(R.string.note_details);
+        }
         
         textTitle = findViewById(R.id.text_title);
         textSubject = findViewById(R.id.text_subject);
@@ -76,6 +82,7 @@ public class NoteDetailActivity extends BaseActivity {
         cardAttachments = findViewById(R.id.card_attachments);
         recyclerAttachments = findViewById(R.id.recycler_attachments);
         fabEdit = findViewById(R.id.fab_edit);
+        progressBar = findViewById(R.id.progress_bar);
         
         fabEdit.setOnClickListener(v -> editNote());
         
@@ -86,23 +93,71 @@ public class NoteDetailActivity extends BaseActivity {
         recyclerAttachments.setAdapter(attachmentsAdapter);
     }
     
-    private void loadNote(long noteId) {
-        noteRepository.getNoteById(noteId, loadedNote -> {
-            if (loadedNote != null) {
-                runOnUiThread(() -> {
-                    note = loadedNote;
-                    displayNote();
-                });
-            } else {
-                runOnUiThread(() -> {
-                    Toast.makeText(this, R.string.note_not_found, Toast.LENGTH_SHORT).show();
-                    finish();
-                });
+    private void loadNote() {
+        showLoading(true);
+        
+        // 从服务器获取的笔记列表中查找指定ID的笔记
+        List<Note> serverNotes = syncManager.getServerNotes();
+        
+        if (serverNotes != null && !serverNotes.isEmpty()) {
+            for (Note serverNote : serverNotes) {
+                if (noteId.equals(serverNote.getId())) {
+                    note = serverNote;
+                    break;
+                }
             }
-        });
+        }
+        
+        if (note != null) {
+            // 找到了笔记，显示详情
+            displayNote();
+            showLoading(false);
+        } else {
+            // 如果本地缓存没有，尝试从服务器刷新
+            syncManager.fetchNotesFromServer(new SyncManager.SyncCallback() {
+                @Override
+                public void onSuccess() {
+                    // 再次查找笔记
+                    List<Note> refreshedNotes = syncManager.getServerNotes();
+                    for (Note refreshedNote : refreshedNotes) {
+                        if (noteId.equals(refreshedNote.getId())) {
+                            note = refreshedNote;
+                            break;
+                        }
+                    }
+                    
+                    runOnUiThread(() -> {
+                        showLoading(false);
+                        if (note != null) {
+                            displayNote();
+                        } else {
+                            Toast.makeText(NoteDetailActivity.this, R.string.note_not_found, Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    });
+                }
+                
+                @Override
+                public void onError(String errorMessage) {
+                    runOnUiThread(() -> {
+                        showLoading(false);
+                        Toast.makeText(NoteDetailActivity.this, R.string.error_loading, Toast.LENGTH_SHORT).show();
+                        finish();
+                    });
+                }
+            });
+        }
+    }
+    
+    private void showLoading(boolean show) {
+        if (progressBar != null) {
+            progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+        }
     }
     
     private void displayNote() {
+        if (note == null) return;
+        
         textTitle.setText(note.getTitle());
         textSubject.setText(note.getSubject());
         
@@ -113,9 +168,10 @@ public class NoteDetailActivity extends BaseActivity {
         textContent.setText(note.getContent());
         
         // 如果有附件，显示附件区域
-        if (note.getAttachments() != null && !note.getAttachments().isEmpty()) {
+        List<String> noteAttachments = note.getAttachmentPaths();
+        if (noteAttachments != null && !noteAttachments.isEmpty()) {
             attachments.clear();
-            attachments.addAll(note.getAttachments());
+            attachments.addAll(noteAttachments);
             attachmentsAdapter.notifyDataSetChanged();
             cardAttachments.setVisibility(View.VISIBLE);
         } else {
@@ -125,7 +181,7 @@ public class NoteDetailActivity extends BaseActivity {
     
     private void editNote() {
         Intent intent = new Intent(this, NoteEditActivity.class);
-        intent.putExtra("note_id", note.getId());
+        intent.putExtra("note_id", noteId);
         startActivityForResult(intent, REQUEST_EDIT_NOTE);
     }
     
@@ -182,7 +238,7 @@ public class NoteDetailActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_EDIT_NOTE && resultCode == RESULT_OK) {
             // 笔记被编辑，重新加载
-            loadNote(note.getId());
+            loadNote();
         }
     }
     
@@ -203,32 +259,25 @@ public class NoteDetailActivity extends BaseActivity {
         if (id == android.R.id.home) {
             onBackPressed();
             return true;
-        } else if (id == R.id.action_share) {
-            shareNote();
-            return true;
         } else if (id == R.id.action_delete) {
             confirmDelete();
+            return true;
+        } else if (id == R.id.action_share) {
+            shareNote();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
     
     private void shareNote() {
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_SUBJECT, note.getTitle());
-        
-        StringBuilder text = new StringBuilder();
-        text.append(note.getTitle()).append("\n\n");
-        if (!note.getSubject().isEmpty()) {
-            text.append(getString(R.string.subject)).append(": ").append(note.getSubject()).append("\n\n");
+        if (note != null) {
+            String shareText = String.format("%s\n\n%s", note.getTitle(), note.getContent());
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, note.getTitle());
+            shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
+            startActivity(Intent.createChooser(shareIntent, getString(R.string.share_note)));
         }
-        text.append(note.getContent());
-        
-        sendIntent.putExtra(Intent.EXTRA_TEXT, text.toString());
-        sendIntent.setType("text/plain");
-        
-        startActivity(Intent.createChooser(sendIntent, getString(R.string.share_note)));
     }
     
     private void confirmDelete() {
@@ -241,8 +290,33 @@ public class NoteDetailActivity extends BaseActivity {
     }
     
     private void deleteNote() {
-        noteRepository.delete(note);
-        Toast.makeText(this, R.string.note_deleted, Toast.LENGTH_SHORT).show();
+        // 显示正在删除
+        showLoading(true);
+        
+        // 直接返回结果，让用户体验更流畅
+        Toast.makeText(NoteDetailActivity.this, R.string.note_deleted, Toast.LENGTH_SHORT).show();
+        
+        // 设置返回结果，确保传递刷新标志
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("refresh_notes", true);
+        setResult(RESULT_OK, resultIntent);
+        
+        // 立即结束当前活动，回到笔记列表页面
         finish();
+        
+        // 在后台执行实际删除操作
+        syncManager.deleteNote(noteId, new SyncManager.SyncCallback() {
+            @Override
+            public void onSuccess() {
+                // 操作已经完成，不需要其他UI反馈
+                Log.d(TAG, "笔记删除已成功同步到服务器: " + noteId);
+            }
+            
+            @Override
+            public void onError(String errorMessage) {
+                // 在后台记录错误，但不再向用户显示
+                Log.e(TAG, "删除笔记时出错: " + errorMessage);
+            }
+        });
     }
 } 

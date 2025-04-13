@@ -5,7 +5,7 @@
 
     <!-- Bottom navigation titles -->
     <string name="title_notes">Notes</string>
-    <string name="title_review">Review</string>
+    <string name="title_review">Daily Push</string>
     <string name="title_community">Community</string>
     <string name="title_profile">Profile</string>
 

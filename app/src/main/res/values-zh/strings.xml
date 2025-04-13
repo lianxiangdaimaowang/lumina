@@ -5,7 +5,7 @@
 
     <!-- 底部导航标题 -->
     <string name="title_notes">笔记</string>
-    <string name="title_review">复习</string>
+    <string name="title_review">每日推送</string>
     <string name="title_community">社区</string>
     <string name="title_profile">个人中心</string>
 

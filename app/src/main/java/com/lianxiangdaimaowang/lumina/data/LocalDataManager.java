@@ -3,17 +3,26 @@ package com.lianxiangdaimaowang.lumina.data;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.content.Intent;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.lianxiangdaimaowang.lumina.community.model.LocalPost;
 import com.lianxiangdaimaowang.lumina.model.Note;
-import com.lianxiangdaimaowang.lumina.model.ReviewPlan;
+import com.lianxiangdaimaowang.lumina.model.Post;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.lang.reflect.Type;
+import java.util.Random;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 /**
  * 本地数据管理类
@@ -28,22 +37,27 @@ public class LocalDataManager {
     public static final String KEY_SIGNED_IN = "signed_in";
     public static final String KEY_PROVIDER = "login_provider";
     public static final String KEY_AVATAR_URL = "avatar_url";
+    private static final String KEY_ACCOUNT_PREFIX = "account_";
+    private static final String KEY_PASSWORD_PREFIX = "password_";
+    private static final String KEY_ACCOUNT_LIST = "account_list";
+    private static final String KEY_POSTS = "posts";
+    public static final String KEY_AUTH_TOKEN = "auth_token";
+    private static final String KEY_LOCAL_POSTS = "local_posts"; // 本地帖子存储键
     
     // 内存中缓存笔记数据
     private final Map<String, Note> notesCache = new HashMap<>();
-    // 内存中缓存复习计划数据
-    private final Map<String, ReviewPlan> reviewPlansCache = new HashMap<>();
     
     private static LocalDataManager instance;
     private final SharedPreferences prefs;
     private final File dataDir;
+    private final Context context; // 添加Context实例变量
+    
+    private List<Post> posts;
+    private final Gson gson = new Gson();
     
     private LocalDataManager(Context context) {
+        this.context = context.getApplicationContext(); // 保存Context
         this.prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        // 确保用户ID存在
-        if (!prefs.contains(KEY_USER_ID)) {
-            prefs.edit().putString(KEY_USER_ID, UUID.randomUUID().toString()).apply();
-        }
         
         // 创建数据目录
         dataDir = new File(context.getFilesDir(), "lumina_data");
@@ -65,10 +79,23 @@ public class LocalDataManager {
     }
     
     /**
-     * 获取用户ID
+     * 获取当前用户ID
+     * 返回服务器分配的用户ID，用于API请求和数据同步
      */
     public String getCurrentUserId() {
-        return prefs.getString(KEY_USER_ID, "");
+        String userId = prefs.getString(KEY_USER_ID, null);
+        
+        if (userId == null || userId.isEmpty()) {
+            // 返回null，表示用户ID未设置
+            // 让服务器分配用户ID
+            Log.d(TAG, "本地没有用户ID，返回null");
+            return null;
+        } else {
+            // 返回服务器分配的用户ID
+            // 注意：不再检查ID是否为数字，因为服务器可能使用其他格式的ID
+            Log.d(TAG, "返回服务器分配的用户ID: " + userId);
+            return userId;
+        }
     }
     
     /**
@@ -128,6 +155,38 @@ public class LocalDataManager {
     }
     
     /**
+     * 设置登录状态
+     */
+    public void setLoggedIn(boolean isLoggedIn) {
+        prefs.edit().putBoolean(KEY_SIGNED_IN, isLoggedIn).apply();
+    }
+    
+    /**
+     * 保存当前用户信息
+     */
+    public void saveCurrentUser(String username) {
+        prefs.edit()
+            .putString(KEY_USERNAME, username)
+            .apply();
+        
+        // 不再将用户名作为用户ID保存
+        // 用户ID应该由服务器分配，或者在登录时从JWT令牌中提取
+    }
+    
+    /**
+     * 保存当前用户信息（包含服务器分配的用户ID）
+     * @param username 用户名
+     * @param userId 服务器分配的用户ID
+     */
+    public void saveCurrentUserWithId(String username, String userId) {
+        Log.d(TAG, "保存用户信息: 用户名=" + username + ", 用户ID=" + userId);
+        prefs.edit()
+            .putString(KEY_USERNAME, username)
+            .putString(KEY_USER_ID, userId)
+            .apply();
+    }
+    
+    /**
      * 判断用户是否已登录
      */
     public boolean isSignedIn() {
@@ -146,6 +205,54 @@ public class LocalDataManager {
      */
     public void signOut() {
         prefs.edit().putBoolean(KEY_SIGNED_IN, false).apply();
+    }
+    
+    /**
+     * 保存账号密码
+     */
+    public void saveAccount(String account, String password) {
+        // 获取现有账号列表
+        String accountList = prefs.getString(KEY_ACCOUNT_LIST, "");
+        if (!accountList.contains(account)) {
+            // 添加新账号到列表
+            accountList = accountList.isEmpty() ? account : accountList + "," + account;
+            prefs.edit()
+                .putString(KEY_ACCOUNT_LIST, accountList)
+                .putString(KEY_ACCOUNT_PREFIX + account, account)
+                .putString(KEY_PASSWORD_PREFIX + account, password)
+                .apply();
+        }
+    }
+    
+    /**
+     * 验证账号密码
+     */
+    public boolean verifyAccount(String account, String password) {
+        String savedPassword = prefs.getString(KEY_PASSWORD_PREFIX + account, "");
+        return !savedPassword.isEmpty() && savedPassword.equals(password);
+    }
+    
+    /**
+     * 检查账号是否存在
+     */
+    public boolean isAccountExists(String account) {
+        String accountList = prefs.getString(KEY_ACCOUNT_LIST, "");
+        return accountList.contains(account);
+    }
+    
+    /**
+     * 获取所有账号列表
+     */
+    public List<String> getAllAccounts() {
+        String accountList = prefs.getString(KEY_ACCOUNT_LIST, "");
+        List<String> accounts = new ArrayList<>();
+        if (!accountList.isEmpty()) {
+            String[] accountArray = accountList.split(",");
+            for (String account : accountArray) {
+                accounts.add(account);
+            }
+        }
+        return accounts;
     }
     
     /**
@@ -189,7 +296,20 @@ public class LocalDataManager {
         
         // 清空缓存
         notesCache.clear();
-        reviewPlansCache.clear();
+    }
+    
+    /**
+     * 清空所有笔记缓存
+     * 用于与服务器同步时重置本地缓存
+     */
+    public void clearAllNotes() {
+        // 清空笔记缓存
+        notesCache.clear();
+        
+        // 保存变更到本地存储
+        saveNotesToLocal();
+        
+        Log.d(TAG, "已清空笔记缓存");
     }
     
     /**
@@ -200,7 +320,9 @@ public class LocalDataManager {
         
         // 确保笔记有ID
         if (note.getId() == null || note.getId().isEmpty()) {
-            note.setId(UUID.randomUUID().toString());
+            // 不再自动生成UUID，让同步逻辑决定如何处理ID
+            // note.setId(UUID.randomUUID().toString());
+            Log.d(TAG, "笔记没有ID，等待服务器分配ID");
         }
         
         // 确保有用户ID
@@ -212,10 +334,15 @@ public class LocalDataManager {
         note.setLastModifiedDate(new Date());
         
         // 保存到缓存
-        notesCache.put(note.getId(), note);
-        
-        // 保存到本地存储
-        saveNotesToLocal();
+        if (note.getId() != null && !note.getId().isEmpty()) {
+            notesCache.put(note.getId(), note);
+            
+            // 保存到本地存储
+            saveNotesToLocal();
+            Log.d(TAG, "保存笔记到本地成功: " + notesCache.size() + " 个笔记");
+        } else {
+            Log.w(TAG, "笔记ID为空，无法保存到本地缓存");
+        }
     }
     
     /**
@@ -316,439 +443,48 @@ public class LocalDataManager {
      * 删除笔记
      */
     public void deleteNote(String noteId) {
+        // 检查是否确实从缓存中移除了笔记
+        boolean removed = notesCache.containsKey(noteId);
         notesCache.remove(noteId);
-        
-        // 同时删除关联的复习计划
-        List<ReviewPlan> plansToRemove = new ArrayList<>();
-        for (ReviewPlan plan : reviewPlansCache.values()) {
-            if (plan.getNoteId() != null && plan.getNoteId().equals(noteId)) {
-                plansToRemove.add(plan);
-            }
-        }
-        
-        for (ReviewPlan plan : plansToRemove) {
-            reviewPlansCache.remove(plan.getId());
-        }
         
         // 保存变更到本地存储
         saveNotesToLocal();
-        saveReviewPlansToLocal();
-    }
-    
-    /**
-     * 保存复习计划
-     */
-    public void saveReviewPlan(ReviewPlan plan) {
-        if (plan == null) return;
         
-        // 确保计划有ID
-        if (plan.getId() == null || plan.getId().isEmpty()) {
-            plan.setId(UUID.randomUUID().toString());
-        }
+        // 发送本地广播通知应用中的其他组件笔记已被删除
+        sendNoteDeletedBroadcast(noteId);
         
-        // 确保有用户ID
-        if (plan.getUserId() == null || plan.getUserId().isEmpty()) {
-            plan.setUserId(getCurrentUserId());
-        }
-        
-        // 保存到缓存
-        reviewPlansCache.put(plan.getId(), plan);
-        
-        // 保存到本地存储
-        saveReviewPlansToLocal();
-    }
-    
-    /**
-     * 兼容Map形式的数据保存（旧接口）
-     */
-    public void saveReviewPlan(String planId, Map<String, String> planData) {
-        ReviewPlan plan = convertMapToReviewPlan(planData);
-        if (plan != null) {
-            plan.setId(planId);
-            saveReviewPlan(plan);
+        if (removed) {
+            Log.d(TAG, "已成功从缓存中删除笔记ID: " + noteId);
+        } else {
+            Log.w(TAG, "未能从缓存中删除笔记ID: " + noteId + " (可能不存在)");
         }
     }
     
     /**
-     * 获取复习计划
+     * 发送笔记删除广播，通知应用中的其他组件
      */
-    public ReviewPlan getReviewPlan(String planId) {
-        return reviewPlansCache.get(planId);
-    }
-    
-    /**
-     * 获取用户的所有复习计划
-     */
-    public List<ReviewPlan> getAllReviewPlans() {
-        List<ReviewPlan> result = new ArrayList<>();
-        String userId = getCurrentUserId();
-        
-        for (ReviewPlan plan : reviewPlansCache.values()) {
-            if (plan.getUserId() != null && plan.getUserId().equals(userId)) {
-                result.add(plan);
-            }
-        }
-        
-        return result;
-    }
-    
-    /**
-     * 获取今日复习计划
-     */
-    public List<ReviewPlan> getTodayReviewPlans() {
-        List<ReviewPlan> result = new ArrayList<>();
-        String userId = getCurrentUserId();
-        
-        Date now = new Date();
-        java.util.Calendar calendar = java.util.Calendar.getInstance();
-        calendar.setTime(now);
-        calendar.set(java.util.Calendar.HOUR_OF_DAY, 0);
-        calendar.set(java.util.Calendar.MINUTE, 0);
-        calendar.set(java.util.Calendar.SECOND, 0);
-        calendar.set(java.util.Calendar.MILLISECOND, 0);
-        Date todayStart = calendar.getTime();
-        
-        calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
-        Date tomorrowStart = calendar.getTime();
-        
-        for (ReviewPlan plan : reviewPlansCache.values()) {
-            if (plan.getUserId() != null && plan.getUserId().equals(userId) 
-                    && !plan.isCompleted() && plan.getNextReviewDate() != null
-                    && plan.getNextReviewDate().after(todayStart)
-                    && plan.getNextReviewDate().before(tomorrowStart)) {
-                result.add(plan);
-            }
-        }
-        
-        return result;
-    }
-    
-    /**
-     * 获取未来复习计划
-     */
-    public List<ReviewPlan> getUpcomingReviewPlans() {
-        List<ReviewPlan> result = new ArrayList<>();
-        String userId = getCurrentUserId();
-        
-        Date now = new Date();
-        java.util.Calendar calendar = java.util.Calendar.getInstance();
-        calendar.setTime(now);
-        calendar.set(java.util.Calendar.HOUR_OF_DAY, 0);
-        calendar.set(java.util.Calendar.MINUTE, 0);
-        calendar.set(java.util.Calendar.SECOND, 0);
-        calendar.set(java.util.Calendar.MILLISECOND, 0);
-        calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
-        Date tomorrowStart = calendar.getTime();
-        
-        for (ReviewPlan plan : reviewPlansCache.values()) {
-            if (plan.getUserId() != null && plan.getUserId().equals(userId) 
-                    && !plan.isCompleted() && plan.getNextReviewDate() != null
-                    && plan.getNextReviewDate().after(tomorrowStart)) {
-                result.add(plan);
-            }
-        }
-        
-        return result;
-    }
-    
-    /**
-     * 获取已完成复习计划
-     */
-    public List<ReviewPlan> getCompletedReviewPlans() {
-        List<ReviewPlan> result = new ArrayList<>();
-        String userId = getCurrentUserId();
-        
-        for (ReviewPlan plan : reviewPlansCache.values()) {
-            if (plan.getUserId() != null && plan.getUserId().equals(userId) 
-                    && plan.isCompleted()) {
-                result.add(plan);
-            }
-        }
-        
-        return result;
-    }
-    
-    /**
-     * 删除复习计划
-     */
-    public void deleteReviewPlan(String planId) {
-        reviewPlansCache.remove(planId);
-        // 保存变更到本地存储
-        saveReviewPlansToLocal();
-    }
-    
-    /**
-     * 将Map转换为ReviewPlan对象
-     */
-    private ReviewPlan convertMapToReviewPlan(Map<String, String> planData) {
-        if (planData == null || !planData.containsKey("noteId")) {
-            return null;
-        }
-        
-        try {
-            String noteId = planData.get("noteId");
-            String noteTitle = planData.get("noteTitle");
-            String noteContent = planData.get("noteContent");
-            
-            ReviewPlan plan = new ReviewPlan(noteId, noteTitle, noteContent);
-            
-            if (planData.containsKey("id")) {
-                plan.setId(planData.get("id"));
-            }
-            
-            if (planData.containsKey("userId")) {
-                plan.setUserId(planData.get("userId"));
-            } else {
-                plan.setUserId(getCurrentUserId());
-            }
-            
-            if (planData.containsKey("currentStage")) {
-                try {
-                    int stage = Integer.parseInt(planData.get("currentStage"));
-                    plan.setCurrentStage(stage);
-                } catch (NumberFormatException e) {
-                    Log.e(TAG, "解析currentStage失败", e);
-                }
-            }
-            
-            if (planData.containsKey("completed")) {
-                plan.setCompleted(Boolean.parseBoolean(planData.get("completed")));
-            }
-            
-            if (planData.containsKey("nextReviewDate")) {
-                try {
-                    long time = Long.parseLong(planData.get("nextReviewDate"));
-                    plan.setNextReviewDate(new Date(time));
-                } catch (NumberFormatException e) {
-                    Log.e(TAG, "解析nextReviewDate失败", e);
-                }
-            }
-            
-            if (planData.containsKey("lastReviewDate")) {
-                try {
-                    long time = Long.parseLong(planData.get("lastReviewDate"));
-                    plan.setLastReviewDate(new Date(time));
-                } catch (NumberFormatException e) {
-                    Log.e(TAG, "解析lastReviewDate失败", e);
-                }
-            }
-            
-            return plan;
-        } catch (Exception e) {
-            Log.e(TAG, "convertMapToReviewPlan失败", e);
-            return null;
-        }
-    }
-    
-    /**
-     * 兼容旧接口 - 获取笔记数据Map形式
-     */
-    public Map<String, String> getNote(String noteId, boolean useMap) {
-        Note note = notesCache.get(noteId);
-        if (note == null) return null;
-        
-        Map<String, String> noteData = new HashMap<>();
-        noteData.put("id", note.getId());
-        noteData.put("userId", note.getUserId());
-        noteData.put("title", note.getTitle());
-        noteData.put("content", note.getContent());
-        noteData.put("subject", note.getSubject());
-        
-        return noteData;
-    }
-    
-    /**
-     * 兼容旧接口 - 获取所有笔记Map形式
-     */
-    public List<Map<String, String>> getAllNotesMap() {
-        List<Map<String, String>> result = new ArrayList<>();
-        List<Note> notes = getAllNotes();
-        
-        for (Note note : notes) {
-            Map<String, String> noteData = new HashMap<>();
-            noteData.put("id", note.getId());
-            noteData.put("userId", note.getUserId());
-            noteData.put("title", note.getTitle());
-            noteData.put("content", note.getContent());
-            noteData.put("subject", note.getSubject());
-            result.add(noteData);
-        }
-        
-        return result;
-    }
-    
-    /**
-     * 兼容旧接口 - 获取所有复习计划Map形式
-     */
-    public List<Map<String, String>> getAllReviewPlansMap() {
-        List<Map<String, String>> result = new ArrayList<>();
-        List<ReviewPlan> plans = getAllReviewPlans();
-        
-        for (ReviewPlan plan : plans) {
-            Map<String, String> planData = convertReviewPlanToMap(plan);
-            result.add(planData);
-        }
-        
-        return result;
-    }
-    
-    /**
-     * 将ReviewPlan对象转换为Map
-     */
-    private Map<String, String> convertReviewPlanToMap(ReviewPlan plan) {
-        if (plan == null) return null;
-        
-        Map<String, String> planData = new HashMap<>();
-        planData.put("id", plan.getId());
-        planData.put("noteId", plan.getNoteId());
-        planData.put("userId", plan.getUserId());
-        planData.put("noteTitle", plan.getNoteTitle());
-        planData.put("noteContent", plan.getNoteContent());
-        planData.put("currentStage", String.valueOf(plan.getCurrentStage()));
-        planData.put("completed", String.valueOf(plan.isCompleted()));
-        
-        if (plan.getNextReviewDate() != null) {
-            planData.put("nextReviewDate", String.valueOf(plan.getNextReviewDate().getTime()));
-        }
-        
-        if (plan.getLastReviewDate() != null) {
-            planData.put("lastReviewDate", String.valueOf(plan.getLastReviewDate().getTime()));
-        }
-        
-        return planData;
+    private void sendNoteDeletedBroadcast(String noteId) {
+        Intent intent = new Intent("com.lianxiangdaimaowang.lumina.NOTE_DELETED");
+        intent.putExtra("note_id", noteId);
+        LocalBroadcastManager.getInstance(this.context).sendBroadcast(intent);
+        Log.d(TAG, "已发送笔记删除广播，noteId=" + noteId);
     }
     
     /**
      * 从本地加载所有数据
      */
     private void loadDataFromLocal() {
-        try {
-            // 加载笔记数据
-            loadNotesFromLocal();
-            
-            // 加载复习计划数据
-            loadReviewPlansFromLocal();
-            
-            Log.d(TAG, "从本地加载数据成功: " + notesCache.size() + " 个笔记, " 
-                    + reviewPlansCache.size() + " 个复习计划");
-        } catch (Exception e) {
-            Log.e(TAG, "从本地加载数据失败", e);
-        }
-    }
-    
-    /**
-     * 保存所有复习计划到本地文件
-     */
-    private void saveReviewPlansToLocal() {
-        try {
-            File reviewPlansFile = new File(dataDir, "review_plans.json");
-            
-            // 将复习计划转换为JSON格式
-            org.json.JSONArray plansArray = new org.json.JSONArray();
-            for (ReviewPlan plan : reviewPlansCache.values()) {
-                org.json.JSONObject planJson = new org.json.JSONObject();
-                planJson.put("id", plan.getId());
-                planJson.put("noteId", plan.getNoteId());
-                planJson.put("userId", plan.getUserId());
-                planJson.put("noteTitle", plan.getNoteTitle());
-                planJson.put("noteContent", plan.getNoteContent());
-                planJson.put("currentStage", plan.getCurrentStage());
-                planJson.put("completed", plan.isCompleted());
+        // 使用后台线程加载数据，避免阻塞主线程
+        new Thread(() -> {
+            try {
+                // 加载笔记数据
+                loadNotesFromLocal();
                 
-                if (plan.getNextReviewDate() != null) {
-                    planJson.put("nextReviewDate", plan.getNextReviewDate().getTime());
-                }
-                
-                if (plan.getLastReviewDate() != null) {
-                    planJson.put("lastReviewDate", plan.getLastReviewDate().getTime());
-                }
-                
-                // 保存复习日期列表
-                if (plan.getReviewDates() != null && !plan.getReviewDates().isEmpty()) {
-                    org.json.JSONArray datesArray = new org.json.JSONArray();
-                    for (Date date : plan.getReviewDates()) {
-                        datesArray.put(date.getTime());
-                    }
-                    planJson.put("reviewDates", datesArray);
-                }
-                
-                plansArray.put(planJson);
+                Log.d(TAG, "从本地加载数据成功: " + notesCache.size() + " 个笔记");
+            } catch (Exception e) {
+                Log.e(TAG, "从本地加载数据失败", e);
             }
-            
-            // 写入文件
-            java.io.FileWriter writer = new java.io.FileWriter(reviewPlansFile);
-            writer.write(plansArray.toString());
-            writer.flush();
-            writer.close();
-            
-            Log.d(TAG, "保存复习计划到本地成功: " + reviewPlansCache.size() + " 个计划");
-        } catch (Exception e) {
-            Log.e(TAG, "保存复习计划到本地失败", e);
-        }
-    }
-    
-    /**
-     * 从本地文件加载复习计划
-     */
-    private void loadReviewPlansFromLocal() {
-        try {
-            File reviewPlansFile = new File(dataDir, "review_plans.json");
-            if (!reviewPlansFile.exists()) {
-                Log.d(TAG, "本地复习计划文件不存在,跳过加载");
-                return;
-            }
-            
-            // 读取文件内容
-            java.io.FileReader reader = new java.io.FileReader(reviewPlansFile);
-            StringBuilder content = new StringBuilder();
-            char[] buffer = new char[1024];
-            int read;
-            while ((read = reader.read(buffer)) != -1) {
-                content.append(buffer, 0, read);
-            }
-            reader.close();
-            
-            // 解析JSON
-            org.json.JSONArray plansArray = new org.json.JSONArray(content.toString());
-            for (int i = 0; i < plansArray.length(); i++) {
-                org.json.JSONObject planJson = plansArray.getJSONObject(i);
-                
-                ReviewPlan plan = new ReviewPlan();
-                
-                if (planJson.has("id")) plan.setId(planJson.getString("id"));
-                if (planJson.has("noteId")) plan.setNoteId(planJson.getString("noteId"));
-                if (planJson.has("userId")) plan.setUserId(planJson.getString("userId"));
-                if (planJson.has("noteTitle")) plan.setNoteTitle(planJson.getString("noteTitle"));
-                if (planJson.has("noteContent")) plan.setNoteContent(planJson.getString("noteContent"));
-                if (planJson.has("currentStage")) plan.setCurrentStage(planJson.getInt("currentStage"));
-                if (planJson.has("completed")) plan.setCompleted(planJson.getBoolean("completed"));
-                
-                if (planJson.has("nextReviewDate")) {
-                    plan.setNextReviewDate(new Date(planJson.getLong("nextReviewDate")));
-                }
-                
-                if (planJson.has("lastReviewDate")) {
-                    plan.setLastReviewDate(new Date(planJson.getLong("lastReviewDate")));
-                }
-                
-                // 加载复习日期列表
-                if (planJson.has("reviewDates")) {
-                    org.json.JSONArray datesArray = planJson.getJSONArray("reviewDates");
-                    List<Date> reviewDates = new ArrayList<>();
-                    for (int j = 0; j < datesArray.length(); j++) {
-                        reviewDates.add(new Date(datesArray.getLong(j)));
-                    }
-                    plan.setReviewDates(reviewDates);
-                }
-                
-                // 添加到缓存
-                reviewPlansCache.put(plan.getId(), plan);
-            }
-            
-            Log.d(TAG, "从本地加载复习计划成功: " + reviewPlansCache.size() + " 个计划");
-        } catch (Exception e) {
-            Log.e(TAG, "从本地加载复习计划失败", e);
-        }
+        }).start();
     }
     
     /**
@@ -876,5 +612,322 @@ public class LocalDataManager {
         } catch (Exception e) {
             Log.e(TAG, "从本地加载笔记失败", e);
         }
+    }
+
+    public List<Post> getAllPosts() {
+        if (posts == null) {
+            String postsJson = prefs.getString(KEY_POSTS, "[]");
+            Type type = new TypeToken<List<Post>>(){}.getType();
+            posts = gson.fromJson(postsJson, type);
+            if (posts == null) {
+                posts = new ArrayList<>();
+            }
+        }
+        return posts;
+    }
+
+    public void savePost(Post post) {
+        if (posts == null) {
+            getAllPosts();
+        }
+        boolean found = false;
+        for (int i = 0; i < posts.size(); i++) {
+            if (posts.get(i).getId().equals(post.getId())) {
+                posts.set(i, post);
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            posts.add(post);
+        }
+        String postsJson = gson.toJson(posts);
+        prefs.edit().putString(KEY_POSTS, postsJson).apply();
+    }
+
+    /**
+     * 保存认证令牌
+     * @param token JWT令牌，服务器返回的原始令牌
+     */
+    public void saveAuthToken(String token) {
+        // 保存原始token，不添加任何前缀
+        saveValue(KEY_AUTH_TOKEN, token);
+    }
+    
+    /**
+     * 获取认证令牌
+     * @return JWT令牌，如果不存在则返回null
+     */
+    public String getAuthToken() {
+        // 获取保存的原始token
+        return prefs.getString(KEY_AUTH_TOKEN, null);
+    }
+    
+    /**
+     * 清除认证令牌
+     */
+    public void clearAuthToken() {
+        prefs.edit().remove(KEY_AUTH_TOKEN).apply();
+    }
+
+    /**
+     * 保存本地帖子
+     */
+    public void saveLocalPost(LocalPost post) {
+        if (post == null) return;
+        
+        // 设置Context
+        post.setContext(context);
+        
+        List<LocalPost> posts = getAllLocalPosts();
+        
+        // 检查是否已存在该帖子
+        boolean found = false;
+        for (int i = 0; i < posts.size(); i++) {
+            if (posts.get(i).getId() != null && posts.get(i).getId().equals(post.getId())) {
+                // 已存在，更新
+                posts.set(i, post);
+                found = true;
+                break;
+            }
+        }
+        
+        // 如果不存在，添加
+        if (!found) {
+            posts.add(post);
+        }
+        
+        // 保存
+        save(KEY_LOCAL_POSTS, new Gson().toJson(posts));
+        
+        Log.d(TAG, "保存本地帖子: " + post.getId() + ", 帖子总数: " + posts.size());
+    }
+
+    /**
+     * 获取所有本地帖子
+     */
+    public List<LocalPost> getAllLocalPosts() {
+        List<LocalPost> posts = new ArrayList<>();
+        
+        try {
+            // 读取本地帖子列表
+            Type type = new TypeToken<List<LocalPost>>(){}.getType();
+            String postsJson = load(KEY_LOCAL_POSTS);
+            
+            if (postsJson != null && !postsJson.isEmpty()) {
+                List<LocalPost> loadedPosts = new Gson().fromJson(postsJson, type);
+                if (loadedPosts != null) {
+                    posts.addAll(loadedPosts);
+                    
+                    // 设置Context
+                    for (LocalPost post : posts) {
+                        post.setContext(context);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "加载本地帖子失败", e);
+        }
+        
+        return posts;
+    }
+
+    /**
+     * 获取单个本地帖子
+     */
+    public LocalPost getLocalPostById(String postId) {
+        if (postId == null || postId.isEmpty()) {
+            return null;
+        }
+        
+        List<LocalPost> posts = getAllLocalPosts();
+        for (LocalPost post : posts) {
+            if (post.getId() != null && post.getId().equals(postId)) {
+                return post;
+            }
+        }
+        
+        return null;
+    }
+    
+    /**
+     * 获取热门帖子（点赞数最高的前N个帖子）
+     */
+    public List<LocalPost> getHotLocalPosts(int limit) {
+        List<LocalPost> allPosts = getAllLocalPosts();
+        
+        // 创建一个Map来分组相同点赞数的帖子
+        Map<Integer, List<LocalPost>> likeCountGroups = new HashMap<>();
+        
+        // 分组处理
+        for (LocalPost post : allPosts) {
+            int likeCount = post.getLikeCount();
+            if (!likeCountGroups.containsKey(likeCount)) {
+                likeCountGroups.put(likeCount, new ArrayList<>());
+            }
+            likeCountGroups.get(likeCount).add(post);
+        }
+        
+        // 获取所有点赞数，并降序排序
+        List<Integer> likeCounts = new ArrayList<>(likeCountGroups.keySet());
+        Collections.sort(likeCounts, Collections.reverseOrder());
+        
+        // 构建最终的热门帖子列表
+        List<LocalPost> hotPosts = new ArrayList<>();
+        Random random = new Random();
+        
+        // 从最高点赞数开始，依次处理每个点赞数组
+        for (Integer likeCount : likeCounts) {
+            // 删除只处理点赞数大于0的条件，允许所有帖子都能被选中
+            List<LocalPost> postsWithSameLikes = likeCountGroups.get(likeCount);
+            
+            // 随机打乱顺序
+            Collections.shuffle(postsWithSameLikes, random);
+            
+            // 每个点赞数组只选一个帖子
+            if (!postsWithSameLikes.isEmpty()) {
+                hotPosts.add(postsWithSameLikes.get(0));
+            }
+            
+            // 如果已经达到限制，退出循环
+            if (hotPosts.size() >= limit) {
+                break;
+            }
+        }
+        
+        return hotPosts;
+    }
+    
+    /**
+     * 获取用户收藏的帖子
+     */
+    public List<LocalPost> getUserFavoritePosts() {
+        List<LocalPost> allPosts = getAllLocalPosts();
+        List<LocalPost> favoritePosts = new ArrayList<>();
+        
+        String userId = getCurrentUserId();
+        if (userId == null || userId.isEmpty()) {
+            return favoritePosts;
+        }
+        
+        Log.d(TAG, "获取用户收藏帖子 - 用户ID: " + userId + ", 总帖子数: " + allPosts.size());
+        
+        for (LocalPost post : allPosts) {
+            boolean isFavorited = post.isFavoritedBy(userId);
+            
+            // 输出调试信息
+            List<String> favorites = post.getFavorites();
+            Log.d(TAG, "检查收藏状态 - 帖子ID: " + post.getId() + 
+                    ", 标题: " + post.getTitle() + 
+                    ", 收藏用户: " + (favorites != null ? favorites.toString() : "[]") + 
+                    ", 是否被当前用户收藏: " + isFavorited);
+            
+            // 额外检查，用多种方式尝试匹配用户ID
+            if (favorites != null) {
+                for (String favoriteId : favorites) {
+                    String favoriteIdStr = String.valueOf(favoriteId);
+                    String userIdStr = String.valueOf(userId);
+                    
+                    if (favoriteIdStr.equals(userIdStr)) {
+                        Log.d(TAG, "额外匹配成功 - 帖子ID: " + post.getId() + 
+                                ", 收藏用户ID: " + favoriteId + ", 当前用户ID: " + userId);
+                        isFavorited = true;
+                        post.addFavorite(userId); // 确保加入收藏列表
+                        saveLocalPost(post); // 保存更新
+                    }
+                }
+            }
+            
+            if (isFavorited) {
+                Log.d(TAG, "找到用户收藏的帖子 - ID: " + post.getId() + ", 标题: " + post.getTitle());
+                favoritePosts.add(post);
+            }
+        }
+        
+        Log.d(TAG, "用户收藏帖子总数: " + favoritePosts.size());
+        return favoritePosts;
+    }
+
+    /**
+     * 删除本地帖子
+     */
+    public void deleteLocalPost(String postId) {
+        List<LocalPost> posts = getAllLocalPosts();
+        
+        // 移除指定ID的帖子
+        posts.removeIf(post -> post.getId().equals(postId));
+        
+        // 保存到SharedPreferences
+        String json = gson.toJson(posts);
+        prefs.edit().putString(KEY_LOCAL_POSTS, json).apply();
+    }
+
+    /**
+     * 清除本地帖子数据
+     */
+    public void clearLocalPosts() {
+        Log.d(TAG, "清空本地帖子数据");
+        save(KEY_LOCAL_POSTS, "");
+    }
+
+    /**
+     * 保存字符串数据到SharedPreferences
+     */
+    private void save(String key, String value) {
+        prefs.edit().putString(key, value).apply();
+    }
+    
+    /**
+     * 从SharedPreferences加载字符串数据
+     */
+    private String load(String key) {
+        return prefs.getString(key, "");
+    }
+
+    /**
+     * 保存用户ID与服务器ID的映射关系
+     * @param clientUserId 客户端用户ID
+     * @param serverUserId 服务器用户ID
+     */
+    public void saveUserIdMapping(String clientUserId, String serverUserId) {
+        if (clientUserId != null && serverUserId != null && !clientUserId.equals(serverUserId)) {
+            Log.d(TAG, "保存用户ID映射: 客户端ID=" + clientUserId + ", 服务器ID=" + serverUserId);
+            saveValue("server_user_id_" + clientUserId, serverUserId);
+        }
+    }
+    
+    /**
+     * 获取与客户端用户ID对应的服务器用户ID
+     * @param clientUserId 客户端用户ID
+     * @return 服务器用户ID，如果没有映射则返回null
+     */
+    public String getServerUserId(String clientUserId) {
+        if (clientUserId == null) return null;
+        
+        String serverUserId = getValue("server_user_id_" + clientUserId, null);
+        if (serverUserId != null && !serverUserId.isEmpty()) {
+            Log.d(TAG, "获取到用户ID映射: 客户端ID=" + clientUserId + ", 服务器ID=" + serverUserId);
+            return serverUserId;
+        }
+        
+        return null;
+    }
+    
+    /**
+     * 获取当前用户的服务器ID
+     * 如果存在映射关系则返回服务器ID，否则返回客户端ID
+     * @return 有效的服务器用户ID
+     */
+    public String getEffectiveUserId() {
+        String clientUserId = getCurrentUserId();
+        String serverUserId = getServerUserId(clientUserId);
+        
+        if (serverUserId != null) {
+            Log.d(TAG, "使用服务器映射ID: " + serverUserId + " (客户端ID: " + clientUserId + ")");
+            return serverUserId;
+        }
+        
+        Log.d(TAG, "使用客户端ID: " + clientUserId + " (无映射)");
+        return clientUserId;
     }
 } 

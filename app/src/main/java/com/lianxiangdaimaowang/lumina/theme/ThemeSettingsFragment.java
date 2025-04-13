@@ -85,7 +85,6 @@ public class ThemeSettingsFragment extends BaseFragment {
         btnApplyTheme.setOnClickListener(v -> {
             if (selectedThemeMode != themeManager.getThemeMode()) {
                 themeManager.setThemeMode(selectedThemeMode);
-                Toast.makeText(requireContext(), R.string.theme_changed, Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(requireContext(), R.string.theme_already_applied, Toast.LENGTH_SHORT).show();
             }

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+    
+    <mirrors>
+        <!-- 禁用阿里云镜像 -->
+        <mirror>
+            <id>aliyunmaven</id>
+            <mirrorOf>!central,!google,!tencent,!netease,!ustc</mirrorOf>
+            <name>Disabled Aliyun Mirror</name>
+            <url>http://none</url>
+        </mirror>
+        
+        <!-- Google Maven 镜像 -->
+        <mirror>
+            <id>google-maven</id>
+            <name>Google Maven Mirror</name>
+            <url>https://dl.google.com/dl/android/maven2/</url>
+            <mirrorOf>central</mirrorOf>
+        </mirror>
+        
+        <!-- 腾讯云镜像 -->
+        <mirror>
+            <id>tencent-maven</id>
+            <name>Tencent Maven Mirror</name>
+            <url>https://mirrors.cloud.tencent.com/nexus/repository/maven-public/</url>
+            <mirrorOf>central</mirrorOf>
+        </mirror>
+        
+        <!-- 网易镜像 -->
+        <mirror>
+            <id>netease-maven</id>
+            <name>Netease Maven Mirror</name>
+            <url>https://mirrors.163.com/maven/repository/maven-public/</url>
+            <mirrorOf>central</mirrorOf>
+        </mirror>
+        
+        <!-- 中科大镜像 -->
+        <mirror>
+            <id>ustc-maven</id>
+            <name>USTC Maven Mirror</name>
+            <url>https://mirrors.ustc.edu.cn/nexus/content/repositories/central/</url>
+            <mirrorOf>central</mirrorOf>
+        </mirror>
+    </mirrors>
+
+    <profiles>
+        <profile>
+            <id>android-repos</id>
+            <repositories>
+                <repository>
+                    <id>google</id>
+                    <name>Google Maven Repository</name>
+                    <url>https://dl.google.com/dl/android/maven2/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                        <updatePolicy>always</updatePolicy>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
+
+    <activeProfiles>
+        <activeProfile>android-repos</activeProfile>
+    </activeProfiles>
+</settings> 

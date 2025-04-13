@@ -1,5 +1,6 @@
 package com.lianxiangdaimaowang.lumina.note;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.lianxiangdaimaowang.lumina.R;
 import com.lianxiangdaimaowang.lumina.model.Note;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -46,7 +48,17 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
         Note note = notes.get(position);
         holder.titleText.setText(note.getTitle());
-        holder.subjectText.setText(note.getSubject());
+        
+        // 确保科目正确显示
+        if (note.getSubject() != null && !note.getSubject().trim().isEmpty()) {
+            holder.subjectText.setText(note.getSubject());
+            holder.subjectText.setVisibility(View.VISIBLE);
+            Log.d("NotesAdapter", "显示科目: " + note.getSubject() + ", 笔记ID: " + note.getId() + ", 标题: " + note.getTitle());
+        } else {
+            holder.subjectText.setText("未分类");
+            holder.subjectText.setVisibility(View.VISIBLE);
+            Log.d("NotesAdapter", "笔记没有科目，显示未分类. 笔记ID: " + note.getId() + ", 标题: " + note.getTitle());
+        }
         
         // 显示内容的开头部分
         String content = note.getContent();
@@ -92,9 +104,18 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
         return notes.size();
     }
     
+    /**
+     * 获取指定位置的笔记
+     */
+    public Note getNoteAt(int position) {
+        if (position >= 0 && position < notes.size()) {
+            return notes.get(position);
+        }
+        return null;
+    }
+    
     public void updateNotes(List<Note> newNotes) {
-        this.notes.clear();
-        this.notes.addAll(newNotes);
+        this.notes = new ArrayList<>(newNotes);
         notifyDataSetChanged();
     }
 
